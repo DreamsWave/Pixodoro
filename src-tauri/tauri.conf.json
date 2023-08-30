@@ -16,6 +16,9 @@
       "shell": {
         "all": false,
         "open": true
+      },
+      "window": {
+        "setAlwaysOnTop": true
       }
     },
     "bundle": {
@@ -38,8 +41,8 @@
         "fullscreen": false,
         "resizable": true,
         "title": "pixodoro",
-        "width": 800,
-        "height": 600
+        "width": 400,
+        "height": 500
       }
     ]
   }
