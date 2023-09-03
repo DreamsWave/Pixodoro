@@ -68,6 +68,7 @@ type ButtonProps = {
   uppercase?: boolean;
   pixelSize?: number;
   children: React.ReactNode;
+  handleClick?: () => void;
 };
 
 function Button({
@@ -77,10 +78,16 @@ function Button({
   fontSize = 24,
   uppercase = true,
   pixelSize = 4,
+  handleClick,
   children,
 }: ButtonProps) {
   return (
-    <ButtonBase fontColor={fontColor} pixelSize={pixelSize} fontSize={fontSize}>
+    <ButtonBase
+      onClick={handleClick}
+      fontColor={fontColor}
+      pixelSize={pixelSize}
+      fontSize={fontSize}
+    >
       <Border>
         <BorderTop pixelSize={pixelSize} color={borderColor} />
         <BorderRight pixelSize={pixelSize} color={borderColor} />
