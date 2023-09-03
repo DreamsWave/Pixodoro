@@ -2,14 +2,24 @@ import { useState } from "react";
 import "./App.css";
 import Button from "./components/Button";
 import PixelCircle from "./components/PixelCircle";
+import { useTimer } from "./hooks/useTimer";
 
 function App() {
   const [pixelSize, setPixelSize] = useState<number>(8);
+  const { seconds, start, pause, reset, running, stop } = useTimer();
   return (
     <>
       <div style={{ display: "flex", flexDirection: "column" }}>
-        <Button pixelSize={pixelSize}>My button</Button>
-        <PixelCircle pixelSize={pixelSize} />
+        <PixelCircle pixelSize={pixelSize} progress={(seconds / 60) * 100} />
+        <Button
+          pixelSize={pixelSize}
+          handleClick={() => (running ? pause() : start())}
+        >
+          {running ? "pause" : "start"}
+        </Button>
+        <Button pixelSize={pixelSize} handleClick={() => reset()}>
+          reset
+        </Button>
       </div>
     </>
   );
