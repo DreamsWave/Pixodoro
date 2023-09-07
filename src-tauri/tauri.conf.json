@@ -42,8 +42,8 @@
         "fullscreen": false,
         "resizable": true,
         "title": "pixodoro",
-        "width": 400,
-        "height": 500
+        "width": 250,
+        "height": 300
       }
     ]
   }
