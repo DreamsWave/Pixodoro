@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
+import { POMODORO_STATUS } from "../types";
 
 const TimeBase = styled.span`
   display: inline-flex;
@@ -9,8 +10,9 @@ const TimeBase = styled.span`
 
 type TimeProps = {
   seconds?: number;
+  status?: POMODORO_STATUS;
 };
-function Time({ seconds = 0 }: TimeProps) {
+function Time({ seconds = 0, status = "pomodoro" }: TimeProps) {
   const [mins, setMins] = useState<string>("00");
   const [secs, setSecs] = useState<string>("00");
 
@@ -21,7 +23,15 @@ function Time({ seconds = 0 }: TimeProps) {
     setSecs(String(s < 10 ? "0" + s : s));
   }, [seconds]);
 
-  return <TimeBase>{`${mins}:${secs}`}</TimeBase>;
+  return (
+    <TimeBase>
+      {mins}
+      <span style={{ color: status === "pomodoro" ? "tomato" : "forestgreen" }}>
+        :
+      </span>
+      {secs}
+    </TimeBase>
+  );
 }
 
 export default Time;
