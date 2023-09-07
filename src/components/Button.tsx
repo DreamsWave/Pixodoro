@@ -80,6 +80,7 @@ function Button({
   pixelSize = 4,
   handleClick,
   children,
+  ...props
 }: ButtonProps) {
   return (
     <ButtonBase
@@ -87,6 +88,7 @@ function Button({
       fontColor={fontColor}
       pixelSize={pixelSize}
       fontSize={fontSize}
+      {...props}
     >
       <Border>
         <BorderTop pixelSize={pixelSize} color={borderColor} />
