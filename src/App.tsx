@@ -7,6 +7,13 @@ import { POMODORO_STATUS } from "./types";
 import { styled } from "styled-components";
 import Time from "./components/Time";
 import { playAudio } from "./utils";
+import PixelIcon from "./components/PixelIcon";
+import {
+  burgerIconPixelPositions,
+  pauseIconPixelPositions,
+  playIconPixelPositions,
+  stopIconPixelPositions,
+} from "./constants";
 
 const Clock = styled.div<{ pixelSize: number }>`
   position: relative;
@@ -70,7 +77,7 @@ function App() {
 
   return (
     <>
-      <div style={{ display: "flex", flexDirection: "column" }}>
+      <div>
         <Clock pixelSize={pixelSize}>
           <PixelCircle
             pixelSize={pixelSize}
@@ -80,10 +87,26 @@ function App() {
           <Time seconds={secondsLeft} />
         </Clock>
         <Button pixelSize={pixelSize} handleClick={timerToggle}>
-          {running ? "pause" : "start"}
+          {running ? (
+            <PixelIcon
+              pixelPositions={pauseIconPixelPositions}
+              color="lightblue"
+              pixelSize={pixelSize}
+            />
+          ) : (
+            <PixelIcon
+              pixelPositions={playIconPixelPositions}
+              color="lightgreen"
+              pixelSize={pixelSize}
+            />
+          )}
         </Button>
-        <Button pixelSize={pixelSize} handleClick={() => reset()}>
-          reset
+        <Button pixelSize={pixelSize} handleClick={() => stop()}>
+          <PixelIcon
+            pixelPositions={stopIconPixelPositions}
+            color="red"
+            pixelSize={pixelSize}
+          />
         </Button>
       </div>
     </>
