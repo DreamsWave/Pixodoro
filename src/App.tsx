@@ -14,6 +14,7 @@ import {
   playIconPixelPositions,
   stopIconPixelPositions,
 } from "./constants";
+import BurgerButton from "./components/BurgerButton";
 
 const Clock = styled.div<{ pixelSize: number }>`
   position: relative;
@@ -78,6 +79,7 @@ function App() {
   return (
     <>
       <div>
+        <BurgerButton pixelSize={pixelSize} />
         <Clock pixelSize={pixelSize}>
           <PixelCircle
             pixelSize={pixelSize}
@@ -86,25 +88,33 @@ function App() {
           />
           <Time seconds={secondsLeft} />
         </Clock>
-        <Button pixelSize={pixelSize} handleClick={timerToggle}>
+        <Button
+          pixelSize={pixelSize}
+          handleClick={timerToggle}
+          borderColor="gray"
+        >
           {running ? (
             <PixelIcon
               pixelPositions={pauseIconPixelPositions}
-              color="lightblue"
+              color="gray"
               pixelSize={pixelSize}
             />
           ) : (
             <PixelIcon
               pixelPositions={playIconPixelPositions}
-              color="lightgreen"
+              color="gray"
               pixelSize={pixelSize}
             />
           )}
         </Button>
-        <Button pixelSize={pixelSize} handleClick={() => stop()}>
+        <Button
+          pixelSize={pixelSize}
+          handleClick={() => stop()}
+          borderColor="gray"
+        >
           <PixelIcon
             pixelPositions={stopIconPixelPositions}
-            color="red"
+            color="gray"
             pixelSize={pixelSize}
           />
         </Button>
