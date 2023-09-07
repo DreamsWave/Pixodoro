@@ -1,70 +1,75 @@
 import { useEffect, useState } from "react";
 import "./App.css";
-import Button from "./components/Button";
-import PixelCircle from "./components/PixelCircle";
 import { useTimer } from "./hooks/useTimer";
 import { POMODORO_STATUS } from "./types";
-import { styled } from "styled-components";
-import Time from "./components/Time";
 import { playAudio } from "./utils";
-import PixelIcon from "./components/PixelIcon";
-import {
-  burgerIconPixelPositions,
-  pauseIconPixelPositions,
-  playIconPixelPositions,
-  stopIconPixelPositions,
-} from "./constants";
-import BurgerButton from "./components/BurgerButton";
-
-const Clock = styled.div<{ pixelSize: number }>`
-  position: relative;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
+import SettingsMenu from "./components/SettingsMenu";
+import Controls from "./components/Controls";
+import Clock from "./components/Clock";
 
 function App() {
   const [pomodoroTotalSeconds, setPomodoroTotalSeconds] = useState<number>(
     1 * 60
   );
   const [breakTotalSeconds, setBreakTotalSeconds] = useState<number>(0.5 * 60);
+  const [currentPomodoroTotalSeconds, setCurrentPomodoroTotalSeconds] =
+    useState<number>(1 * 60);
+  const [currentBreakTotalSeconds, setCurrentBreakTotalSeconds] =
+    useState<number>(0.5 * 60);
   const [audioVolume, setAudioVolume] = useState<number>(0.5);
   const [status, setStatus] = useState<POMODORO_STATUS>("pomodoro");
   const [pixelSize, setPixelSize] = useState<number>(8);
   const [progress, setProgress] = useState<number>(0);
   const [secondsLeft, setSecondsLeft] = useState<number>(0);
+  const [timerStarted, setTimerStarted] = useState<boolean>(false);
 
   const { seconds, start, pause, reset, running, stop } = useTimer();
 
   useEffect(() => {
     if (status === "pomodoro") {
-      if (seconds <= pomodoroTotalSeconds) {
-        setProgress((seconds / pomodoroTotalSeconds) * 100);
-        setSecondsLeft(pomodoroTotalSeconds - seconds);
+      if (seconds <= currentPomodoroTotalSeconds) {
+        setProgress((seconds / currentPomodoroTotalSeconds) * 100);
+        setSecondsLeft(currentPomodoroTotalSeconds - seconds);
       } else {
-        timerStop();
+        timerEnd();
       }
     }
     if (status === "break") {
-      if (seconds <= breakTotalSeconds) {
-        setProgress((seconds / breakTotalSeconds) * 100);
-        setSecondsLeft(breakTotalSeconds - seconds);
+      if (seconds <= currentBreakTotalSeconds) {
+        setProgress((seconds / currentBreakTotalSeconds) * 100);
+        setSecondsLeft(currentBreakTotalSeconds - seconds);
       } else {
-        timerStop();
+        timerEnd();
       }
     }
   }, [seconds]);
 
-  function timerStop() {
+  function timerEnd() {
     stop();
     setProgress(0);
     if (status === "pomodoro") {
       setStatus("break");
       playAudio("pomodoro-end", audioVolume);
+      setSecondsLeft(breakTotalSeconds - seconds);
     } else if (status === "break") {
       setStatus("pomodoro");
       playAudio("break-end", audioVolume);
+      setSecondsLeft(pomodoroTotalSeconds - seconds);
     }
+    setTimerStarted(false);
+  }
+
+  function timerStop() {
+    stop();
+    setProgress(0);
+    if (status === "pomodoro") {
+      playAudio("pomodoro-end", audioVolume);
+    } else if (status === "break") {
+      playAudio("break-end", audioVolume);
+    }
+    setTimerStarted(false);
+    setCurrentPomodoroTotalSeconds(pomodoroTotalSeconds);
+    setCurrentBreakTotalSeconds(breakTotalSeconds);
   }
 
   function timerToggle() {
@@ -72,52 +77,43 @@ function App() {
       pause();
     } else {
       start();
+      if (!timerStarted) {
+        setTimerStarted(true);
+      }
     }
     playAudio("timer-start", audioVolume);
+  }
+
+  function changeTotalSeconds(type: "pomodoro" | "break", sec: number) {
+    if (type === "pomodoro") {
+      setPomodoroTotalSeconds(sec);
+    } else {
+      setBreakTotalSeconds(sec);
+    }
   }
 
   return (
     <>
       <div>
-        <BurgerButton pixelSize={pixelSize} />
-        <Clock pixelSize={pixelSize}>
-          <PixelCircle
-            pixelSize={pixelSize}
-            progress={progress}
-            color={status === "pomodoro" ? "tomato" : "forestgreen"}
-          />
-          <Time seconds={secondsLeft} />
-        </Clock>
-        <Button
+        <SettingsMenu
           pixelSize={pixelSize}
-          handleClick={timerToggle}
-          borderColor="gray"
-        >
-          {running ? (
-            <PixelIcon
-              pixelPositions={pauseIconPixelPositions}
-              color="gray"
-              pixelSize={pixelSize}
-            />
-          ) : (
-            <PixelIcon
-              pixelPositions={playIconPixelPositions}
-              color="gray"
-              pixelSize={pixelSize}
-            />
-          )}
-        </Button>
-        <Button
+          pomodoroTotalSeconds={pomodoroTotalSeconds}
+          breakTotalSeconds={breakTotalSeconds}
+          changeTotalSeconds={changeTotalSeconds}
+        />
+        <Clock
           pixelSize={pixelSize}
-          handleClick={() => stop()}
-          borderColor="gray"
-        >
-          <PixelIcon
-            pixelPositions={stopIconPixelPositions}
-            color="gray"
-            pixelSize={pixelSize}
-          />
-        </Button>
+          progress={progress}
+          secondsLeft={secondsLeft}
+          status={status}
+        />
+        <Controls
+          running={running}
+          handleTimerStop={timerStop}
+          handleTimerEnd={timerEnd}
+          handleTimerToggle={timerToggle}
+          pixelSize={pixelSize}
+        />
       </div>
     </>
   );

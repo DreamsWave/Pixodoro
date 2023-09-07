@@ -4,13 +4,15 @@ type ButtonBaseProps = {
   fontColor: string;
   pixelSize: number;
   fontSize: number;
+  noBorder?: boolean;
 };
 
 const ButtonBase = styled.button<ButtonBaseProps>`
   position: relative;
   background: transparent;
   color: ${({ fontColor }) => fontColor};
-  padding: ${({ pixelSize }) => pixelSize * 2}px;
+  padding: ${({ pixelSize, noBorder }) =>
+    noBorder ? pixelSize : pixelSize * 2}px;
   border: none;
   cursor: pointer;
   font-family: PressStart2P, Inter, Avenir, Helvetica, Arial, sans-serif;
@@ -69,6 +71,7 @@ type ButtonProps = {
   pixelSize?: number;
   children: React.ReactNode;
   handleClick?: () => void;
+  noBorder?: boolean;
 };
 
 function Button({
@@ -78,6 +81,7 @@ function Button({
   fontSize = 24,
   uppercase = true,
   pixelSize = 4,
+  noBorder = false,
   handleClick,
   children,
   ...props
@@ -88,14 +92,17 @@ function Button({
       fontColor={fontColor}
       pixelSize={pixelSize}
       fontSize={fontSize}
+      noBorder={noBorder}
       {...props}
     >
-      <Border>
-        <BorderTop pixelSize={pixelSize} color={borderColor} />
-        <BorderRight pixelSize={pixelSize} color={borderColor} />
-        <BorderBottom pixelSize={pixelSize} color={borderColor} />
-        <BorderLeft pixelSize={pixelSize} color={borderColor} />
-      </Border>
+      {!noBorder && (
+        <Border>
+          <BorderTop pixelSize={pixelSize} color={borderColor} />
+          <BorderRight pixelSize={pixelSize} color={borderColor} />
+          <BorderBottom pixelSize={pixelSize} color={borderColor} />
+          <BorderLeft pixelSize={pixelSize} color={borderColor} />
+        </Border>
+      )}
       {children}
     </ButtonBase>
   );

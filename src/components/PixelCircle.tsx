@@ -30,7 +30,7 @@ const PixeledCircleBase = styled.div<PixeledCircleBaseProps>`
   align-items: center;
   width: ${({ diameter, pixelSize }) => diameter * pixelSize}px;
   height: ${({ diameter, pixelSize }) => diameter * pixelSize}px;
-  margin: auto;
+  margin: ${({ pixelSize }) => pixelSize}px auto;
 `;
 
 type PixeledCircleProps = {
