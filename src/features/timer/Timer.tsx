@@ -2,9 +2,14 @@ import styled from "styled-components";
 import PixelCircle from "../../components/PixelCircle";
 import { POMODORO_STATUS } from "../../types";
 import { selectPixelSize } from "../pixelSize/pixelSizeSlice";
-import { useAppDispatch, useAppSelector, useTimer } from "../../hooks";
+import {
+  useAppDispatch,
+  useAppSelector,
+  useAudio,
+  useTimer,
+} from "../../hooks";
 import Time from "../../components/Time";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import {
   selectTimer,
   setProgress,
@@ -16,10 +21,7 @@ import {
   setStarted,
   setSecondsLeft,
 } from "./timerSlice";
-import { playAudio } from "../../utils";
 import Controls from "../../components/Controls";
-
-const audioVolume = 0.5;
 
 const Clock = styled.div`
   position: relative;
@@ -51,6 +53,7 @@ function Timer({}: TimerProps) {
   } = useAppSelector(selectTimer);
   const dispatch = useAppDispatch();
   const { seconds, start, pause, reset, running, stop } = useTimer();
+  const { play } = useAudio();
 
   useEffect(() => {
     if (status === "pomodoro") {
@@ -76,11 +79,11 @@ function Timer({}: TimerProps) {
     setProgress(0);
     if (status === "pomodoro") {
       dispatch(setStatus("break"));
-      playAudio("pomodoro-end", audioVolume);
+      play("pomodoro-end");
       setSecondsLeft(breakTotalSeconds - seconds);
     } else if (status === "break") {
       dispatch(setStatus("pomodoro"));
-      playAudio("break-end", audioVolume);
+      play("break-end");
       setSecondsLeft(pomodoroTotalSeconds - seconds);
     }
     dispatch(setStarted(false));
@@ -90,9 +93,9 @@ function Timer({}: TimerProps) {
     stop();
     setProgress(0);
     if (status === "pomodoro") {
-      playAudio("pomodoro-end", audioVolume);
+      play("pomodoro-end");
     } else if (status === "break") {
-      playAudio("break-end", audioVolume);
+      play("break-end");
     }
     dispatch(setStarted(false));
     dispatch(setCurrentPomodoroTotalSeconds(pomodoroTotalSeconds));
@@ -108,7 +111,7 @@ function Timer({}: TimerProps) {
         dispatch(setStarted(true));
       }
     }
-    playAudio("timer-start", audioVolume);
+    play("timer-start");
   }
 
   return (
