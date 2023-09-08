@@ -14,6 +14,7 @@ import {
   setCurrentPomodoroTotalSeconds,
   setSecondsLeft,
 } from "../features/timer/timerSlice";
+import ThemeSwitcher from "./ThemeSwitcher";
 
 const SettingsMenuBase = styled.div``;
 
@@ -57,20 +58,7 @@ function SettingsMenu({}: SettingsMenuProps) {
       <BurgerButton onClick={toggleMenu} opened={menuOpened} />
       {menuOpened && (
         <SettingsMenuOverlay>
-          <div style={{ display: "flex", gap: pixelSize }}>
-            <Button>
-              <PixelIcon
-                pixelPositions={sunIconPixelPositions}
-                color="lightyellow"
-              />
-            </Button>
-            <Button>
-              <PixelIcon
-                pixelPositions={moonIconPixelPositions}
-                color="lightblue"
-              />
-            </Button>
-          </div>
+          <ThemeSwitcher />
           <label>
             FOCUS:{" "}
             <input
