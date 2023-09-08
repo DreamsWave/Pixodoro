@@ -1,4 +1,6 @@
 import styled from "styled-components";
+import { useAppSelector } from "../hooks";
+import { selectPixelSize } from "../features/pixelSize/pixelSizeSlice";
 
 type ButtonBaseProps = {
   fontColor: string;
@@ -68,7 +70,6 @@ type ButtonProps = {
   fontColor?: string;
   fontSize?: number;
   uppercase?: boolean;
-  pixelSize?: number;
   children: React.ReactNode;
   handleClick?: () => void;
   noBorder?: boolean;
@@ -80,12 +81,12 @@ function Button({
   fontColor = "#fff",
   fontSize = 24,
   uppercase = true,
-  pixelSize = 4,
   noBorder = false,
   handleClick,
   children,
   ...props
 }: ButtonProps) {
+  const pixelSize = useAppSelector(selectPixelSize);
   return (
     <ButtonBase
       onClick={handleClick}
