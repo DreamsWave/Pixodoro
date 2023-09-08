@@ -4,6 +4,9 @@ import { useState } from "react";
 import Button from "./Button";
 import PixelIcon from "./PixelIcon";
 import { moonIconPixelPositions, sunIconPixelPositions } from "../constants";
+import PixelSize from "../features/pixelSize/PixelSize";
+import { useAppSelector } from "../hooks";
+import { selectPixelSize } from "../features/pixelSize/pixelSizeSlice";
 
 const SettingsMenuBase = styled.div``;
 
@@ -19,18 +22,17 @@ const SettingsMenuOverlay = styled.div`
 `;
 
 type SettingsMenuProps = {
-  pixelSize: number;
   pomodoroTotalSeconds?: number;
   breakTotalSeconds?: number;
   changeTotalSeconds: (type: "pomodoro" | "break", seconds: number) => void;
 };
 function SettingsMenu({
-  pixelSize = 8,
   pomodoroTotalSeconds = 1 * 60,
   breakTotalSeconds = 0.5 * 60,
   changeTotalSeconds,
 }: SettingsMenuProps) {
   const [menuOpened, setMenuOpened] = useState(false);
+  const pixelSize = useAppSelector(selectPixelSize);
 
   function toggleMenu() {
     setMenuOpened(!menuOpened);
@@ -38,21 +40,17 @@ function SettingsMenu({
 
   return (
     <SettingsMenuBase>
-      <BurgerButton
-        pixelSize={pixelSize}
-        onClick={toggleMenu}
-        opened={menuOpened}
-      />
+      <BurgerButton onClick={toggleMenu} opened={menuOpened} />
       {menuOpened && (
         <SettingsMenuOverlay>
           <div style={{ display: "flex", gap: pixelSize }}>
-            <Button pixelSize={pixelSize}>
+            <Button>
               <PixelIcon
                 pixelPositions={sunIconPixelPositions}
                 color="lightyellow"
               />
             </Button>
-            <Button pixelSize={pixelSize}>
+            <Button>
               <PixelIcon
                 pixelPositions={moonIconPixelPositions}
                 color="lightblue"
@@ -77,6 +75,7 @@ function SettingsMenu({
               onChange={(e) => changeTotalSeconds("break", +e.target.value)}
             />
           </label>
+          <PixelSize />
         </SettingsMenuOverlay>
       )}
     </SettingsMenuBase>

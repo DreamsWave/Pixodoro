@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
-import "./App.css";
-import { useTimer } from "./hooks/useTimer";
+import { useTimer } from "./hooks";
 import { POMODORO_STATUS } from "./types";
 import { playAudio } from "./utils";
 import SettingsMenu from "./components/SettingsMenu";
@@ -18,7 +17,6 @@ function App() {
     useState<number>(0.5 * 60);
   const [audioVolume, setAudioVolume] = useState<number>(0.5);
   const [status, setStatus] = useState<POMODORO_STATUS>("pomodoro");
-  const [pixelSize, setPixelSize] = useState<number>(8);
   const [progress, setProgress] = useState<number>(0);
   const [secondsLeft, setSecondsLeft] = useState<number>(0);
   const [timerStarted, setTimerStarted] = useState<boolean>(false);
@@ -96,23 +94,16 @@ function App() {
     <>
       <div>
         <SettingsMenu
-          pixelSize={pixelSize}
           pomodoroTotalSeconds={pomodoroTotalSeconds}
           breakTotalSeconds={breakTotalSeconds}
           changeTotalSeconds={changeTotalSeconds}
         />
-        <Clock
-          pixelSize={pixelSize}
-          progress={progress}
-          secondsLeft={secondsLeft}
-          status={status}
-        />
+        <Clock progress={progress} secondsLeft={secondsLeft} status={status} />
         <Controls
           running={running}
           handleTimerStop={timerStop}
           handleTimerEnd={timerEnd}
           handleTimerToggle={timerToggle}
-          pixelSize={pixelSize}
         />
       </div>
     </>

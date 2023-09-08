@@ -7,6 +7,8 @@ import {
   skipIconPixelPositions,
   stopIconPixelPositions,
 } from "../constants";
+import { selectPixelSize } from "../features/pixelSize/pixelSizeSlice";
+import { useAppSelector } from "../hooks";
 
 const ControlsBase = styled.div<{ pixelSize: number }>`
   display: flex;
@@ -16,70 +18,37 @@ const ControlsBase = styled.div<{ pixelSize: number }>`
 `;
 
 type ControlsProps = {
-  pixelSize: number;
   running?: boolean;
   handleTimerStop: () => void;
   handleTimerEnd: () => void;
   handleTimerToggle: () => void;
 };
 function Controls({
-  pixelSize = 8,
   running = false,
   handleTimerStop,
   handleTimerEnd,
   handleTimerToggle,
   ...props
 }: ControlsProps) {
+  const pixelSize = useAppSelector(selectPixelSize);
   return (
     <ControlsBase pixelSize={pixelSize}>
       {running ? (
-        <Button
-          pixelSize={pixelSize}
-          handleClick={handleTimerToggle}
-          borderColor="gray"
-        >
-          <PixelIcon
-            pixelPositions={pauseIconPixelPositions}
-            color="gray"
-            pixelSize={pixelSize}
-          />
+        <Button handleClick={handleTimerToggle} borderColor="gray">
+          <PixelIcon pixelPositions={pauseIconPixelPositions} color="gray" />
         </Button>
       ) : (
-        <Button
-          pixelSize={pixelSize}
-          handleClick={handleTimerToggle}
-          borderColor="gray"
-        >
-          <PixelIcon
-            pixelPositions={playIconPixelPositions}
-            color="gray"
-            pixelSize={pixelSize}
-          />
+        <Button handleClick={handleTimerToggle} borderColor="gray">
+          <PixelIcon pixelPositions={playIconPixelPositions} color="gray" />
         </Button>
       )}
       {running ? (
-        <Button
-          pixelSize={pixelSize}
-          handleClick={handleTimerStop}
-          borderColor="gray"
-        >
-          <PixelIcon
-            pixelPositions={stopIconPixelPositions}
-            color="gray"
-            pixelSize={pixelSize}
-          />
+        <Button handleClick={handleTimerStop} borderColor="gray">
+          <PixelIcon pixelPositions={stopIconPixelPositions} color="gray" />
         </Button>
       ) : (
-        <Button
-          pixelSize={pixelSize}
-          handleClick={handleTimerEnd}
-          borderColor="gray"
-        >
-          <PixelIcon
-            pixelPositions={skipIconPixelPositions}
-            color="gray"
-            pixelSize={pixelSize}
-          />
+        <Button handleClick={handleTimerEnd} borderColor="gray">
+          <PixelIcon pixelPositions={skipIconPixelPositions} color="gray" />
         </Button>
       )}
     </ControlsBase>

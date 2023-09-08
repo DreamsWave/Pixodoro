@@ -1,13 +1,12 @@
+import { selectPixelSize } from "../features/pixelSize/pixelSizeSlice";
+import { useAppSelector } from "../hooks";
+
 type PixelIconProps = {
   color?: string;
-  pixelSize?: number;
   pixelPositions: number[][];
 };
-function PixelIcon({
-  color = "#000",
-  pixelSize = 8,
-  pixelPositions,
-}: PixelIconProps) {
+function PixelIcon({ color = "#000", pixelPositions }: PixelIconProps) {
+  const pixelSize = useAppSelector(selectPixelSize);
   return (
     <svg
       version="1.1"

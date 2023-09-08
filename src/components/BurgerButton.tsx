@@ -5,6 +5,8 @@ import {
   burgerIconPixelPositions,
   closeIconPixelPositions,
 } from "../constants";
+import { useAppSelector } from "../hooks";
+import { selectPixelSize } from "../features/pixelSize/pixelSizeSlice";
 
 const BurgerButtonBase = styled.div<{ pixelSize: number }>`
   position: fixed;
@@ -15,19 +17,18 @@ const BurgerButtonBase = styled.div<{ pixelSize: number }>`
 `;
 
 type BurgerButtonProps = {
-  pixelSize: number;
   opened?: boolean;
   onClick: () => void;
 };
 function BurgerButton({
-  pixelSize = 8,
   opened = false,
   onClick,
   ...props
 }: BurgerButtonProps) {
+  const pixelSize = useAppSelector(selectPixelSize);
   return (
     <BurgerButtonBase pixelSize={pixelSize} onClick={onClick} {...props}>
-      <Button pixelSize={pixelSize} noBorder={true}>
+      <Button noBorder={true}>
         {opened ? (
           <PixelIcon pixelPositions={closeIconPixelPositions} color="gray" />
         ) : (
