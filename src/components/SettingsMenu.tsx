@@ -11,6 +11,8 @@ import {
   setPomodoroTotalSeconds,
   setBreakTotalSeconds,
   selectTimer,
+  setCurrentPomodoroTotalSeconds,
+  setSecondsLeft,
 } from "../features/timer/timerSlice";
 
 const SettingsMenuBase = styled.div``;
@@ -30,7 +32,7 @@ type SettingsMenuProps = {};
 function SettingsMenu({}: SettingsMenuProps) {
   const [menuOpened, setMenuOpened] = useState(false);
   const pixelSize = useAppSelector(selectPixelSize);
-  const { pomodoroTotalSeconds, breakTotalSeconds } =
+  const { pomodoroTotalSeconds, breakTotalSeconds, started } =
     useAppSelector(selectTimer);
   const dispatch = useAppDispatch();
 
@@ -41,6 +43,10 @@ function SettingsMenu({}: SettingsMenuProps) {
   function changeTotalSeconds(type: "pomodoro" | "break", sec: number) {
     if (type === "pomodoro") {
       dispatch(setPomodoroTotalSeconds(sec));
+      if (!started) {
+        dispatch(setCurrentPomodoroTotalSeconds(sec));
+        dispatch(setSecondsLeft(sec));
+      }
     } else {
       dispatch(setBreakTotalSeconds(sec));
     }

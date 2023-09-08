@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import styled from "styled-components";
-import { POMODORO_STATUS } from "../types";
+import { useAppSelector } from "../hooks";
+import { selectTimer } from "../features/timer/timerSlice";
 
 const TimeBase = styled.span`
   display: inline-flex;
@@ -8,20 +9,17 @@ const TimeBase = styled.span`
   font-size: 1.6rem;
 `;
 
-type TimeProps = {
-  seconds?: number;
-  status?: POMODORO_STATUS;
-};
-function Time({ seconds = 0, status = "pomodoro" }: TimeProps) {
+function Time() {
   const [mins, setMins] = useState<string>("00");
   const [secs, setSecs] = useState<string>("00");
+  const { secondsLeft, status } = useAppSelector(selectTimer);
 
   useEffect(() => {
-    const m = Math.floor(seconds / 60);
-    const s = seconds % 60;
+    const m = Math.floor(secondsLeft / 60);
+    const s = secondsLeft % 60;
     setMins(String(m < 10 ? "0" + m : m));
     setSecs(String(s < 10 ? "0" + s : s));
-  }, [seconds]);
+  }, [secondsLeft]);
 
   return (
     <TimeBase>
