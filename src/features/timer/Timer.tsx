@@ -80,11 +80,11 @@ function Timer({}: TimerProps) {
     if (status === "pomodoro") {
       dispatch(setStatus("break"));
       play("pomodoro-end");
-      setSecondsLeft(breakTotalSeconds - seconds);
+      dispatch(setSecondsLeft(breakTotalSeconds - seconds));
     } else if (status === "break") {
       dispatch(setStatus("pomodoro"));
       play("break-end");
-      setSecondsLeft(pomodoroTotalSeconds - seconds);
+      dispatch(setSecondsLeft(pomodoroTotalSeconds - seconds));
     }
     dispatch(setStarted(false));
   }
