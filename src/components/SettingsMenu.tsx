@@ -5,8 +5,13 @@ import Button from "./Button";
 import PixelIcon from "./PixelIcon";
 import { moonIconPixelPositions, sunIconPixelPositions } from "../constants";
 import PixelSize from "../features/pixelSize/PixelSize";
-import { useAppSelector } from "../hooks";
+import { useAppDispatch, useAppSelector } from "../hooks";
 import { selectPixelSize } from "../features/pixelSize/pixelSizeSlice";
+import {
+  setPomodoroTotalSeconds,
+  setBreakTotalSeconds,
+  selectTimer,
+} from "../features/timer/timerSlice";
 
 const SettingsMenuBase = styled.div``;
 
@@ -21,21 +26,24 @@ const SettingsMenuOverlay = styled.div`
   z-index: 10;
 `;
 
-type SettingsMenuProps = {
-  pomodoroTotalSeconds?: number;
-  breakTotalSeconds?: number;
-  changeTotalSeconds: (type: "pomodoro" | "break", seconds: number) => void;
-};
-function SettingsMenu({
-  pomodoroTotalSeconds = 1 * 60,
-  breakTotalSeconds = 0.5 * 60,
-  changeTotalSeconds,
-}: SettingsMenuProps) {
+type SettingsMenuProps = {};
+function SettingsMenu({}: SettingsMenuProps) {
   const [menuOpened, setMenuOpened] = useState(false);
   const pixelSize = useAppSelector(selectPixelSize);
+  const { pomodoroTotalSeconds, breakTotalSeconds } =
+    useAppSelector(selectTimer);
+  const dispatch = useAppDispatch();
 
   function toggleMenu() {
     setMenuOpened(!menuOpened);
+  }
+
+  function changeTotalSeconds(type: "pomodoro" | "break", sec: number) {
+    if (type === "pomodoro") {
+      dispatch(setPomodoroTotalSeconds(sec));
+    } else {
+      dispatch(setBreakTotalSeconds(sec));
+    }
   }
 
   return (
