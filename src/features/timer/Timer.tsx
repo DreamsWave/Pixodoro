@@ -14,6 +14,7 @@ import {
   setPomodoroTotalSeconds,
   setStatus,
   setStarted,
+  setSecondsLeft,
 } from "./timerSlice";
 import { playAudio } from "../../utils";
 import Controls from "../../components/Controls";
@@ -50,13 +51,12 @@ function Timer({}: TimerProps) {
   } = useAppSelector(selectTimer);
   const dispatch = useAppDispatch();
   const { seconds, start, pause, reset, running, stop } = useTimer();
-  const [secondsLeft, setSecondsLeft] = useState<number>(0);
 
   useEffect(() => {
     if (status === "pomodoro") {
       if (seconds <= currentPomodoroTotalSeconds) {
         dispatch(setProgress((seconds / currentPomodoroTotalSeconds) * 100));
-        setSecondsLeft(currentPomodoroTotalSeconds - seconds);
+        dispatch(setSecondsLeft(currentPomodoroTotalSeconds - seconds));
       } else {
         timerEnd();
       }
@@ -64,7 +64,7 @@ function Timer({}: TimerProps) {
     if (status === "break") {
       if (seconds <= currentBreakTotalSeconds) {
         dispatch(setProgress((seconds / currentBreakTotalSeconds) * 100));
-        setSecondsLeft(currentBreakTotalSeconds - seconds);
+        dispatch(setSecondsLeft(currentBreakTotalSeconds - seconds));
       } else {
         timerEnd();
       }
@@ -118,7 +118,7 @@ function Timer({}: TimerProps) {
           progress={progress}
           color={status === "pomodoro" ? "tomato" : "forestgreen"}
         />
-        <Time seconds={secondsLeft} status={status} />
+        <Time />
       </Clock>
       <Controls
         running={running}

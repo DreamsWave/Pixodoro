@@ -10,6 +10,7 @@ interface TimerState {
   status: POMODORO_STATUS;
   progress: number;
   started: boolean;
+  secondsLeft: number;
 }
 
 const initialState: TimerState = {
@@ -20,6 +21,7 @@ const initialState: TimerState = {
   status: "pomodoro",
   progress: 0,
   started: false,
+  secondsLeft: 60,
 };
 
 export const timerSlice = createSlice({
@@ -47,6 +49,9 @@ export const timerSlice = createSlice({
     setStarted: (state, action: PayloadAction<boolean>) => {
       state.started = action.payload;
     },
+    setSecondsLeft: (state, action: PayloadAction<number>) => {
+      state.secondsLeft = action.payload;
+    },
   },
 });
 
@@ -58,6 +63,7 @@ export const {
   setStatus,
   setProgress,
   setStarted,
+  setSecondsLeft,
 } = timerSlice.actions;
 
 export const selectTimer = (state: RootState) => state.timer;
