@@ -10,20 +10,22 @@ const QuantityInputBase = styled.div`
   display: flex;
 `;
 
-const QuantityInputElement = styled.input<{ pixelSize: number }>`
-  max-width: ${({ pixelSize }) => pixelSize * 12}px;
+const QuantityInputElement = styled.input<{
+  pixelSize: number;
+  noBorder: boolean;
+  numberLength: number;
+}>`
+  max-width: ${({ pixelSize, numberLength }) => pixelSize * 3 * numberLength}px;
   background: transparent;
   border: none;
-  border-top: ${({ pixelSize }) => pixelSize}px solid gray;
-  border-bottom: ${({ pixelSize }) => pixelSize}px solid gray;
+  ${({ noBorder, pixelSize }) =>
+    !noBorder &&
+    `border-top: ${pixelSize}px solid gray;
+  border-bottom: ${pixelSize}px solid gray;`}
   color: #fff;
   text-align: center;
   outline: none;
   font-size: ${({ pixelSize }) => pixelSize * 3}px;
-  margin-left: -8px;
-  margin-right: -8px;
-  padding-left: 8px;
-  padding-right: 8px;
 
   &::-webkit-inner-spin-button {
     -webkit-appearance: none;
@@ -39,12 +41,14 @@ type QuantityInputProps = {
   max?: number;
   defaultValue?: number;
   onChange?: (value: number) => void;
+  noBorder?: boolean;
 };
 function QuantityInput({
   min = 0,
   max = 10,
   defaultValue = 5,
   onChange,
+  noBorder = false,
 }: QuantityInputProps) {
   const [value, setValue] = useState(defaultValue);
   const [atMininum, setAtMininum] = useState(false);
@@ -92,21 +96,31 @@ function QuantityInput({
 
   return (
     <QuantityInputBase>
-      <Button borderColor="gray" handleClick={decreaseValue}>
+      <Button
+        borderColor="gray"
+        handleClick={decreaseValue}
+        noBorder={noBorder}
+      >
         <PixelIcon
           pixelPositions={minusIconPixelPositions}
           color={atMininum ? "gray" : "#fff"}
         />
       </Button>
       <QuantityInputElement
+        noBorder={noBorder}
         pixelSize={pixelSize}
         type="number"
         min={min}
         max={max}
         value={value}
         onChange={(e) => inputChange(+e.target.value)}
+        numberLength={value.toString().length < 2 ? 2 : value.toString().length}
       />
-      <Button borderColor="gray" handleClick={increaseValue}>
+      <Button
+        borderColor="gray"
+        handleClick={increaseValue}
+        noBorder={noBorder}
+      >
         <PixelIcon
           pixelPositions={plusIconPixelPositions}
           color={atMaximum ? "gray" : "#fff"}
