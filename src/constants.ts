@@ -201,3 +201,17 @@ export const skipIconPixelPositions = [
   [3, 3],
   [2, 4],
 ];
+
+export const minusIconPixelPositions = [
+  [0, 0],
+  [1, 0],
+  [2, 0],
+];
+
+export const plusIconPixelPositions = [
+  [1, 0],
+  [0, 1],
+  [1, 1],
+  [2, 1],
+  [1, 2],
+];

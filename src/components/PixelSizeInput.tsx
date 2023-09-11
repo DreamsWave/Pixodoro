@@ -1,6 +1,7 @@
 import { styled } from "styled-components";
 import { change, selectPixelSize } from "../features/pixelSize/pixelSizeSlice";
 import { useAppSelector, useAppDispatch } from "../hooks";
+import QuantityInput from "./QuantityInput";
 
 const PixelSizeInputBase = styled.input<{ pixelSize: number }>`
   background: #3f3f3f;
@@ -19,12 +20,14 @@ function PixelSizeInput() {
   const dispatch = useAppDispatch();
 
   return (
-    <PixelSizeInputBase
-      pixelSize={pixelSize}
-      type="number"
-      value={pixelSize}
-      onChange={(e) => dispatch(change(Number(e.target.value)))}
-    />
+    <>
+      <QuantityInput
+        min={4}
+        max={8}
+        defaultValue={pixelSize}
+        onChange={(num) => dispatch(change(num))}
+      />
+    </>
   );
 }
 
