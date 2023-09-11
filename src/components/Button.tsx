@@ -19,6 +19,9 @@ const ButtonBase = styled.button<ButtonBaseProps>`
   cursor: pointer;
   font-family: PressStart2P, Inter, Avenir, Helvetica, Arial, sans-serif;
   font-size: ${({ fontSize }) => fontSize}px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 const Border = styled.div`

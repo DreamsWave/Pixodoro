@@ -18,6 +18,7 @@ import ThemeSwitcher from "./ThemeSwitcher";
 import AudioVolumeSlider from "./AudioVolumeSlider";
 import InputField from "./InputField";
 import PixelSizeInput from "./PixelSizeInput";
+import QuantityInput from "./QuantityInput";
 
 const SettingsMenuBase = styled.div``;
 
@@ -87,6 +88,10 @@ function SettingsMenu({}: SettingsMenuProps) {
           <InputField>
             <span>Volume</span>
             <AudioVolumeSlider />
+          </InputField>
+          <InputField>
+            <span>Field</span>
+            <QuantityInput />
           </InputField>
         </SettingsMenuOverlay>
       )}
