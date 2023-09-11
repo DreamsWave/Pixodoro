@@ -1,27 +1,27 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../../store";
-import { POMODORO_STATUS } from "../../types";
 
+type PomodoroStatus = "pomodoro" | "break";
 interface TimerState {
   pomodoroTotalSeconds: number;
   breakTotalSeconds: number;
   currentPomodoroTotalSeconds: number;
   currentBreakTotalSeconds: number;
-  status: POMODORO_STATUS;
+  status: PomodoroStatus;
   progress: number;
   started: boolean;
   secondsLeft: number;
 }
 
 const initialState: TimerState = {
-  pomodoroTotalSeconds: 60,
-  breakTotalSeconds: 30,
-  currentPomodoroTotalSeconds: 60,
-  currentBreakTotalSeconds: 30,
+  pomodoroTotalSeconds: 1500,
+  breakTotalSeconds: 300,
+  currentPomodoroTotalSeconds: 1500,
+  currentBreakTotalSeconds: 300,
   status: "pomodoro",
   progress: 0,
   started: false,
-  secondsLeft: 60,
+  secondsLeft: 0,
 };
 
 export const timerSlice = createSlice({
@@ -40,7 +40,7 @@ export const timerSlice = createSlice({
     setCurrentBreakTotalSeconds: (state, action: PayloadAction<number>) => {
       state.currentBreakTotalSeconds = action.payload;
     },
-    setStatus: (state, action: PayloadAction<POMODORO_STATUS>) => {
+    setStatus: (state, action: PayloadAction<PomodoroStatus>) => {
       state.status = action.payload;
     },
     setProgress: (state, action: PayloadAction<number>) => {

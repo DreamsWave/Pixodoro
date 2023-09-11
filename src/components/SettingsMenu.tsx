@@ -1,8 +1,7 @@
 import styled from "styled-components";
 import BurgerButton from "./BurgerButton";
 import { useState } from "react";
-import { useAppDispatch, useAppSelector } from "../hooks";
-import { change, selectPixelSize } from "../features/pixelSize/pixelSizeSlice";
+import { useAppDispatch, useAppSelector, usePixelSize } from "../hooks";
 import {
   setPomodoroTotalSeconds,
   setBreakTotalSeconds,
@@ -14,6 +13,7 @@ import ThemeSwitcher from "./ThemeSwitcher";
 import AudioVolumeSlider from "./AudioVolumeSlider";
 import InputField from "./InputField";
 import QuantityInput from "./QuantityInput";
+import { setPixelSize } from "../features/appSettings/appSettingsSlice";
 
 const SettingsMenuBase = styled.div``;
 
@@ -33,7 +33,7 @@ function SettingsMenu({}: SettingsMenuProps) {
   const [menuOpened, setMenuOpened] = useState(false);
   const { pomodoroTotalSeconds, breakTotalSeconds, started } =
     useAppSelector(selectTimer);
-  const pixelSize = useAppSelector(selectPixelSize);
+  const { pixelSize } = usePixelSize();
   const dispatch = useAppDispatch();
 
   function toggleMenu() {
@@ -87,7 +87,7 @@ function SettingsMenu({}: SettingsMenuProps) {
               min={4}
               max={8}
               defaultValue={pixelSize}
-              onChange={(num) => dispatch(change(num))}
+              onChange={(num) => dispatch(setPixelSize(num))}
               noBorder
             />
           </InputField>

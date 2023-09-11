@@ -2,8 +2,7 @@ import styled from "styled-components";
 import { minusIconPixelPositions, plusIconPixelPositions } from "../constants";
 import Button from "./Button";
 import PixelIcon from "./PixelIcon";
-import { useAppSelector } from "../hooks";
-import { selectPixelSize } from "../features/pixelSize/pixelSizeSlice";
+import { usePixelSize } from "../hooks";
 import { useEffect, useState } from "react";
 
 const QuantityInputBase = styled.div`
@@ -53,7 +52,7 @@ function QuantityInput({
   const [value, setValue] = useState(defaultValue);
   const [atMininum, setAtMininum] = useState(false);
   const [atMaximum, setAtMaximum] = useState(false);
-  const pixelSize = useAppSelector(selectPixelSize);
+  const { pixelSize } = usePixelSize();
 
   useEffect(() => {
     if (value === min) {
@@ -90,7 +89,6 @@ function QuantityInput({
   }
 
   function inputChange(number: number) {
-    console.log(number);
     setValue(number);
   }
 

@@ -1,11 +1,10 @@
 import styled from "styled-components";
 import PixelCircle from "../../components/PixelCircle";
-import { POMODORO_STATUS } from "../../types";
-import { selectPixelSize } from "../pixelSize/pixelSizeSlice";
 import {
   useAppDispatch,
   useAppSelector,
   useAudio,
+  usePixelSize,
   useTimer,
 } from "../../hooks";
 import Time from "../../components/Time";
@@ -13,10 +12,8 @@ import { useEffect } from "react";
 import {
   selectTimer,
   setProgress,
-  setBreakTotalSeconds,
   setCurrentBreakTotalSeconds,
   setCurrentPomodoroTotalSeconds,
-  setPomodoroTotalSeconds,
   setStatus,
   setStarted,
   setSecondsLeft,
@@ -41,7 +38,7 @@ const TimerBase = styled.div<{ pixelSize: number }>`
 
 type TimerProps = {};
 function Timer({}: TimerProps) {
-  const pixelSize = useAppSelector(selectPixelSize);
+  const { pixelSize } = usePixelSize();
   const {
     pomodoroTotalSeconds,
     breakTotalSeconds,

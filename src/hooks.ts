@@ -1,7 +1,10 @@
 import { useCallback, useEffect, useState } from "react";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "./store";
-import { selectAppSettings } from "./features/appSettings/appSettingsSlice";
+import {
+  selectAppSettings,
+  setPixelSize,
+} from "./features/appSettings/appSettingsSlice";
 import timerStartAudio from "./assets/audio/timer-start.wav";
 import pomodoroEndAudio from "./assets/audio/pomodoro-end.wav";
 import breakEndAudio from "./assets/audio/break-end.wav";
@@ -69,4 +72,15 @@ export const useAudio = () => {
   }
 
   return { play };
+};
+
+export const usePixelSize = () => {
+  const { pixelSize } = useAppSelector(selectAppSettings);
+  const dispatch = useAppDispatch();
+
+  function setPixel(newPixelSize: number) {
+    dispatch(setPixelSize(newPixelSize));
+  }
+
+  return { pixelSize, setPixel };
 };

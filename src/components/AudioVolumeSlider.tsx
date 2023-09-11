@@ -3,8 +3,7 @@ import {
   selectAppSettings,
   setVolume,
 } from "../features/appSettings/appSettingsSlice";
-import { useAppDispatch, useAppSelector } from "../hooks";
-import { selectPixelSize } from "../features/pixelSize/pixelSizeSlice";
+import { useAppDispatch, useAppSelector, usePixelSize } from "../hooks";
 
 const Slider = styled.input<{ pixelSize: number }>`
   -webkit-appearance: none;
@@ -36,7 +35,7 @@ const Slider = styled.input<{ pixelSize: number }>`
 `;
 
 function AudioVolumeSlider() {
-  const pixelSize = useAppSelector(selectPixelSize);
+  const { pixelSize } = usePixelSize();
   const { audioVolume } = useAppSelector(selectAppSettings);
   const dispatch = useAppDispatch();
 
