@@ -8,6 +8,7 @@ import {
   selectTimer,
   setCurrentPomodoroTotalSeconds,
   setSecondsLeft,
+  setCurrentBreakTotalSeconds,
 } from "../features/timer/timerSlice";
 import ThemeSwitcher from "./ThemeSwitcher";
 import AudioVolumeSlider from "./AudioVolumeSlider";
@@ -31,7 +32,7 @@ const SettingsMenuOverlay = styled.div`
 type SettingsMenuProps = {};
 function SettingsMenu({}: SettingsMenuProps) {
   const [menuOpened, setMenuOpened] = useState(false);
-  const { pomodoroTotalSeconds, breakTotalSeconds, started } =
+  const { pomodoroTotalSeconds, breakTotalSeconds, started, status } =
     useAppSelector(selectTimer);
   const { pixelSize } = usePixelSize();
   const dispatch = useAppDispatch();
@@ -45,10 +46,15 @@ function SettingsMenu({}: SettingsMenuProps) {
       dispatch(setPomodoroTotalSeconds(sec));
       if (!started) {
         dispatch(setCurrentPomodoroTotalSeconds(sec));
-        dispatch(setSecondsLeft(sec));
       }
-    } else {
+    } else if (type === "break") {
       dispatch(setBreakTotalSeconds(sec));
+      if (!started) {
+        dispatch(setCurrentBreakTotalSeconds(sec));
+      }
+    }
+    if (type === status) {
+      dispatch(setSecondsLeft(sec));
     }
   }
 
