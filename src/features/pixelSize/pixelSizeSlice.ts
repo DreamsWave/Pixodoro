@@ -1,11 +1,11 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../../store";
 
-interface CounterState {
+interface PixelSizeState {
   value: number;
 }
 
-const initialState: CounterState = {
+const initialState: PixelSizeState = {
   value: 8,
 };
 

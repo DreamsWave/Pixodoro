@@ -15,6 +15,9 @@ import {
   setSecondsLeft,
 } from "../features/timer/timerSlice";
 import ThemeSwitcher from "./ThemeSwitcher";
+import AudioVolumeSlider from "./AudioVolumeSlider";
+import InputField from "./InputField";
+import PixelSizeInput from "./PixelSizeInput";
 
 const SettingsMenuBase = styled.div``;
 
@@ -77,7 +80,14 @@ function SettingsMenu({}: SettingsMenuProps) {
               onChange={(e) => changeTotalSeconds("break", +e.target.value)}
             />
           </label>
-          <PixelSize />
+          <InputField>
+            <span>Pixel Size</span>
+            <PixelSizeInput />
+          </InputField>
+          <InputField>
+            <span>Volume</span>
+            <AudioVolumeSlider />
+          </InputField>
         </SettingsMenuOverlay>
       )}
     </SettingsMenuBase>
