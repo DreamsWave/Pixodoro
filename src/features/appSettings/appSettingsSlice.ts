@@ -4,11 +4,13 @@ import { RootState } from "../../store";
 interface AppSettingsState {
   audioVolume: number;
   darkTheme: boolean;
+  pixelSize: number;
 }
 
 const initialState: AppSettingsState = {
   audioVolume: 0.5,
   darkTheme: true,
+  pixelSize: 8,
 };
 
 export const appSettingsSlice = createSlice({
@@ -21,10 +23,14 @@ export const appSettingsSlice = createSlice({
     setVolume: (state, action: PayloadAction<number>) => {
       state.audioVolume = action.payload;
     },
+    setPixelSize: (state, action: PayloadAction<number>) => {
+      state.pixelSize = action.payload;
+    },
   },
 });
 
-export const { toggleTheme, setVolume } = appSettingsSlice.actions;
+export const { toggleTheme, setVolume, setPixelSize } =
+  appSettingsSlice.actions;
 
 export const selectAppSettings = (state: RootState) => state.appSettings;
 

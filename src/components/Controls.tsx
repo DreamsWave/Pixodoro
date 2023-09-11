@@ -7,8 +7,7 @@ import {
   skipIconPixelPositions,
   stopIconPixelPositions,
 } from "../constants";
-import { selectPixelSize } from "../features/pixelSize/pixelSizeSlice";
-import { useAppSelector } from "../hooks";
+import { usePixelSize } from "../hooks";
 
 const ControlsBase = styled.div<{ pixelSize: number }>`
   display: flex;
@@ -30,7 +29,7 @@ function Controls({
   handleTimerToggle,
   ...props
 }: ControlsProps) {
-  const pixelSize = useAppSelector(selectPixelSize);
+  const { pixelSize } = usePixelSize();
   return (
     <ControlsBase pixelSize={pixelSize}>
       {running ? (

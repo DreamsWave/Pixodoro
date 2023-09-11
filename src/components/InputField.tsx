@@ -1,6 +1,5 @@
 import styled from "styled-components";
-import { useAppSelector } from "../hooks";
-import { selectPixelSize } from "../features/pixelSize/pixelSizeSlice";
+import { usePixelSize } from "../hooks";
 
 const InputFieldBase = styled.div<{ pixelSize: number }>`
   display: flex;
@@ -12,7 +11,7 @@ const InputFieldBase = styled.div<{ pixelSize: number }>`
 `;
 
 function InputField({ children }: { children: React.ReactNode }) {
-  const pixelSize = useAppSelector(selectPixelSize);
+  const { pixelSize } = usePixelSize();
 
   return <InputFieldBase pixelSize={pixelSize}>{children}</InputFieldBase>;
 }

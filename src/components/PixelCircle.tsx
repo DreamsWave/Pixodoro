@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { circlePixelsPosition } from "../constants";
-import { selectPixelSize } from "../features/pixelSize/pixelSizeSlice";
-import { useAppSelector } from "../hooks";
+import { useAppSelector, usePixelSize } from "../hooks";
+import { selectAppSettings } from "../features/appSettings/appSettingsSlice";
 
 type PixelProps = {
   pixelSize: number;
@@ -43,7 +43,7 @@ function PixelCircle({ progress = 0, color = "red" }: PixeledCircleProps) {
   const [activePixels, setActivePixels] = useState<number>(0);
   const pixelsRef = useRef<HTMLSpanElement[]>([]);
   const DIAMETER = 22;
-  const pixelSize = useAppSelector(selectPixelSize);
+  const { pixelSize } = usePixelSize();
 
   useEffect(() => {
     setActivePixels(Math.round((progress / 10) * 6));
