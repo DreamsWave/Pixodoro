@@ -1,12 +1,8 @@
 import styled from "styled-components";
 import BurgerButton from "./BurgerButton";
 import { useState } from "react";
-import Button from "./Button";
-import PixelIcon from "./PixelIcon";
-import { moonIconPixelPositions, sunIconPixelPositions } from "../constants";
-import PixelSize from "../features/pixelSize/PixelSize";
 import { useAppDispatch, useAppSelector } from "../hooks";
-import { selectPixelSize } from "../features/pixelSize/pixelSizeSlice";
+import { change, selectPixelSize } from "../features/pixelSize/pixelSizeSlice";
 import {
   setPomodoroTotalSeconds,
   setBreakTotalSeconds,
@@ -17,7 +13,6 @@ import {
 import ThemeSwitcher from "./ThemeSwitcher";
 import AudioVolumeSlider from "./AudioVolumeSlider";
 import InputField from "./InputField";
-import PixelSizeInput from "./PixelSizeInput";
 import QuantityInput from "./QuantityInput";
 
 const SettingsMenuBase = styled.div``;
@@ -36,9 +31,9 @@ const SettingsMenuOverlay = styled.div`
 type SettingsMenuProps = {};
 function SettingsMenu({}: SettingsMenuProps) {
   const [menuOpened, setMenuOpened] = useState(false);
-  const pixelSize = useAppSelector(selectPixelSize);
   const { pomodoroTotalSeconds, breakTotalSeconds, started } =
     useAppSelector(selectTimer);
+  const pixelSize = useAppSelector(selectPixelSize);
   const dispatch = useAppDispatch();
 
   function toggleMenu() {
@@ -63,35 +58,43 @@ function SettingsMenu({}: SettingsMenuProps) {
       {menuOpened && (
         <SettingsMenuOverlay>
           <ThemeSwitcher />
-          <label>
-            FOCUS:{" "}
-            <input
-              type="number"
-              min="0"
-              defaultValue={pomodoroTotalSeconds}
-              onChange={(e) => changeTotalSeconds("pomodoro", +e.target.value)}
+
+          <InputField>
+            <span>Focus</span>
+            <QuantityInput
+              min={1}
+              max={120}
+              defaultValue={pomodoroTotalSeconds / 60}
+              onChange={(number) => changeTotalSeconds("pomodoro", number * 60)}
+              noBorder
             />
-          </label>
-          <label>
-            BREAK:{" "}
-            <input
-              type="number"
-              min="0"
-              defaultValue={breakTotalSeconds}
-              onChange={(e) => changeTotalSeconds("break", +e.target.value)}
+          </InputField>
+
+          <InputField>
+            <span>Break</span>
+            <QuantityInput
+              min={1}
+              max={120}
+              defaultValue={breakTotalSeconds / 60}
+              onChange={(number) => changeTotalSeconds("break", number * 60)}
+              noBorder
             />
-          </label>
+          </InputField>
+
           <InputField>
             <span>Pixel Size</span>
-            <PixelSizeInput />
+            <QuantityInput
+              min={4}
+              max={8}
+              defaultValue={pixelSize}
+              onChange={(num) => dispatch(change(num))}
+              noBorder
+            />
           </InputField>
+
           <InputField>
             <span>Volume</span>
             <AudioVolumeSlider />
-          </InputField>
-          <InputField>
-            <span>Field</span>
-            <QuantityInput />
           </InputField>
         </SettingsMenuOverlay>
       )}
