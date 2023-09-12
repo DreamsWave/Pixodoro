@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { useTheme } from "styled-components";
 import Button from "./Button";
 import PixelIcon from "./PixelIcon";
 import {
@@ -30,24 +30,37 @@ function Controls({
   ...props
 }: ControlsProps) {
   const { pixelSize } = usePixelSize();
+  const theme = useTheme();
   return (
     <ControlsBase pixelSize={pixelSize}>
       {running ? (
-        <Button handleClick={handleTimerToggle} borderColor="gray">
-          <PixelIcon pixelPositions={pauseIconPixelPositions} color="gray" />
+        <Button handleClick={handleTimerToggle} noBorder>
+          <PixelIcon
+            pixelPositions={pauseIconPixelPositions}
+            color={theme.color?.button}
+          />
         </Button>
       ) : (
-        <Button handleClick={handleTimerToggle} borderColor="gray">
-          <PixelIcon pixelPositions={playIconPixelPositions} color="gray" />
+        <Button handleClick={handleTimerToggle} noBorder>
+          <PixelIcon
+            pixelPositions={playIconPixelPositions}
+            color={theme.color?.button}
+          />
         </Button>
       )}
       {running ? (
-        <Button handleClick={handleTimerStop} borderColor="gray">
-          <PixelIcon pixelPositions={stopIconPixelPositions} color="gray" />
+        <Button handleClick={handleTimerStop} noBorder>
+          <PixelIcon
+            pixelPositions={stopIconPixelPositions}
+            color={theme.color?.button}
+          />
         </Button>
       ) : (
-        <Button handleClick={handleTimerEnd} borderColor="gray">
-          <PixelIcon pixelPositions={skipIconPixelPositions} color="gray" />
+        <Button handleClick={handleTimerEnd} noBorder>
+          <PixelIcon
+            pixelPositions={skipIconPixelPositions}
+            color={theme.color?.button}
+          />
         </Button>
       )}
     </ControlsBase>

@@ -1,19 +1,4 @@
-export interface ThemeColors {
-  primary: string;
-  secondary: string;
-  border: string;
-  text: string;
-  background: string;
-  button: string;
-}
-
-export type ThemeType = "dark" | "light";
-
-export type Themes = {
-  [key in ThemeType]: {
-    color: ThemeColors;
-  };
-};
+import { ThemeColors, Themes, Theme } from "./types/themeTypes";
 
 const darkThemeColors: ThemeColors = {
   primary: "#f27474",
@@ -25,15 +10,15 @@ const darkThemeColors: ThemeColors = {
 };
 
 const lightThemeColors: ThemeColors = {
-  primary: "#5fa1e7",
-  secondary: "#f27474",
+  primary: "#f27474",
+  secondary: "#5fa1e7",
   border: "#cfd0e3",
   text: "#444774",
   background: "#fff",
   button: "#9598c1",
 };
 
-const defaultTheme = {};
+const defaultTheme: Theme = {};
 
 const themes: Themes = {
   dark: {

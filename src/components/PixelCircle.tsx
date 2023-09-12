@@ -15,7 +15,8 @@ const Pixel = styled.span<PixelProps>`
   display: flex;
   width: ${({ pixelSize }) => pixelSize}px;
   height: ${({ pixelSize }) => pixelSize}px;
-  background-color: ${({ color, active }) => (active ? color : "grey")};
+  background-color: ${({ color, active, theme }) =>
+    active ? color : theme.color?.border};
   position: absolute;
   top: ${({ pixelSize, positionY }) => pixelSize * positionY}px;
   left: ${({ pixelSize, positionX }) => pixelSize * positionX}px;
