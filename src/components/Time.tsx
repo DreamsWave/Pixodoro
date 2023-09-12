@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import styled from "styled-components";
+import styled, { useTheme } from "styled-components";
 import { useAppSelector } from "../hooks";
 import { selectTimer } from "../features/timer/timerSlice";
 
@@ -13,6 +13,7 @@ function Time() {
   const [mins, setMins] = useState<string>("00");
   const [secs, setSecs] = useState<string>("00");
   const { secondsLeft, status } = useAppSelector(selectTimer);
+  const theme = useTheme();
 
   useEffect(() => {
     const m = Math.floor(secondsLeft / 60);
@@ -24,7 +25,14 @@ function Time() {
   return (
     <TimeBase>
       {mins}
-      <span style={{ color: status === "pomodoro" ? "tomato" : "forestgreen" }}>
+      <span
+        style={{
+          color:
+            status === "pomodoro"
+              ? theme.color?.primary
+              : theme.color?.secondary,
+        }}
+      >
         :
       </span>
       {secs}

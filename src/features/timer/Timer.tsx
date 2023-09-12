@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { useTheme } from "styled-components";
 import PixelCircle from "../../components/PixelCircle";
 import {
   useAppDispatch,
@@ -49,8 +49,9 @@ function Timer({}: TimerProps) {
     started,
   } = useAppSelector(selectTimer);
   const dispatch = useAppDispatch();
-  const { seconds, start, pause, reset, running, stop } = useTimer();
+  const { seconds, start, pause, running, stop } = useTimer();
   const { play } = useAudio();
+  const theme = useTheme();
 
   useEffect(() => {
     if (status === "pomodoro") {
@@ -116,7 +117,11 @@ function Timer({}: TimerProps) {
       <Clock>
         <PixelCircle
           progress={progress}
-          color={status === "pomodoro" ? "tomato" : "forestgreen"}
+          color={
+            status === "pomodoro"
+              ? theme.color?.primary
+              : theme.color?.secondary
+          }
         />
         <Time />
       </Clock>

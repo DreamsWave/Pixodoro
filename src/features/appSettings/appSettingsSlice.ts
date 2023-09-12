@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../../store";
-import { ThemeType } from "../../theme";
+import { ThemeType } from "../../types/themeTypes";
 
 interface AppSettingsState {
   audioVolume: number;

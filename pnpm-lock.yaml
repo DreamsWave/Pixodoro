@@ -19,6 +19,9 @@ dependencies:
   styled-components:
     specifier: ^6.0.7
     version: 6.0.7(react-dom@18.2.0)(react@18.2.0)
+  webfontloader:
+    specifier: ^1.6.28
+    version: 1.6.28
 
 devDependencies:
   '@tauri-apps/cli':
@@ -33,6 +36,9 @@ devDependencies:
   '@types/react-dom':
     specifier: ^18.2.7
     version: 18.2.7
+  '@types/webfontloader':
+    specifier: ^1.6.35
+    version: 1.6.35
   '@vitejs/plugin-react':
     specifier: ^4.0.3
     version: 4.0.3(vite@4.4.4)
@@ -1777,6 +1783,10 @@ packages:
     resolution: {integrity: sha512-EwmlvuaxPNej9+T4v5AuBPJa2x2UOJVdjCtDHgcDqitUeOtjnJKJ+apYjVcAoBEMjKW1VVFGZLUb5+qqa09XFA==}
     dev: false
 
+  /@types/webfontloader@1.6.35:
+    resolution: {integrity: sha512-IJlrsiDWq6KghQ7tPlL5tcwSUyOxLDceT+AFUY7Ylj0Fcv3/h3QkANqQxZ0B5mEpEKxhTw76vDmvrruSMV9n9Q==}
+    dev: true
+
   /@vitejs/plugin-react@4.0.3(vite@4.4.4):
     resolution: {integrity: sha512-pwXDog5nwwvSIzwrvYYmA2Ljcd/ZNlcsSG2Q9CNDBwnsd55UGAyr2doXtB5j+2uymRCnCfExlznzzSFbBRcoCg==}
     engines: {node: ^14.18.0 || >=16.0.0}
@@ -2559,6 +2569,10 @@ packages:
     optionalDependencies:
       fsevents: 2.3.3
     dev: true
+
+  /webfontloader@1.6.28:
+    resolution: {integrity: sha512-Egb0oFEga6f+nSgasH3E0M405Pzn6y3/9tOVanv/DLfa1YBIgcv90L18YyWnvXkRbIM17v5Kv6IT2N6g1x5tvQ==}
+    dev: false
 
   /wrappy@1.0.2:
     resolution: {integrity: sha512-l4Sp/DRseor9wL6EvV2+TuQn63dMkPjZ/sp9XkghTEbV9KlPS1xUsZ3u7/IQO4wxtcFB4bgpQPRcR3QCvezPcQ==}
