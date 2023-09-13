@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { useTheme } from "styled-components";
 import Button from "./Button";
 import PixelIcon from "./PixelIcon";
 import {
@@ -8,9 +8,9 @@ import {
 import { usePixelSize } from "../hooks";
 
 const BurgerButtonBase = styled.div<{ pixelSize: number }>`
-  position: fixed;
-  top: 0px;
-  right: 0px;
+  position: absolute;
+  top: ${({ pixelSize }) => pixelSize}px;
+  right: ${({ pixelSize }) => pixelSize}px;
   z-index: 15;
   cursor: pointer;
 `;
@@ -25,13 +25,20 @@ function BurgerButton({
   ...props
 }: BurgerButtonProps) {
   const { pixelSize } = usePixelSize();
+  const theme = useTheme();
   return (
     <BurgerButtonBase pixelSize={pixelSize} onClick={onClick} {...props}>
       <Button noBorder={true}>
         {opened ? (
-          <PixelIcon pixelPositions={closeIconPixelPositions} color="gray" />
+          <PixelIcon
+            pixelPositions={closeIconPixelPositions}
+            color={theme.color?.button}
+          />
         ) : (
-          <PixelIcon pixelPositions={burgerIconPixelPositions} color="gray" />
+          <PixelIcon
+            pixelPositions={burgerIconPixelPositions}
+            color={theme.color?.button}
+          />
         )}
       </Button>
     </BurgerButtonBase>

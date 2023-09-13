@@ -1,3 +1,4 @@
+import { useTheme } from "styled-components";
 import { moonIconPixelPositions, sunIconPixelPositions } from "../constants";
 import {
   selectAppSettings,
@@ -10,6 +11,7 @@ import PixelIcon from "./PixelIcon";
 function ThemeSwitcher() {
   const { theme } = useAppSelector(selectAppSettings);
   const dispatch = useAppDispatch();
+  const styledTheme = useTheme();
 
   return (
     <>
@@ -17,7 +19,7 @@ function ThemeSwitcher() {
         <Button handleClick={() => dispatch(setTheme("light"))} noBorder>
           <PixelIcon
             pixelPositions={sunIconPixelPositions}
-            color="lightyellow"
+            color={styledTheme.color?.sunColor}
           />
         </Button>
       )}
@@ -25,7 +27,7 @@ function ThemeSwitcher() {
         <Button handleClick={() => dispatch(setTheme("dark"))} noBorder>
           <PixelIcon
             pixelPositions={moonIconPixelPositions}
-            color="lightblue"
+            color={styledTheme.color?.moonColor}
           />
         </Button>
       )}

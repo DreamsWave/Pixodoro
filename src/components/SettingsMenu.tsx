@@ -15,11 +15,11 @@ import AudioVolumeSlider from "./AudioVolumeSlider";
 import InputField from "./InputField";
 import QuantityInput from "./QuantityInput";
 import { setPixelSize } from "../features/appSettings/appSettingsSlice";
+import Container from "./Container";
+import SettingsGroup from "./SettingsGroup";
 
-const SettingsMenuBase = styled.div``;
-
-const SettingsMenuOverlay = styled.div`
-  background: #2f2f2f;
+const SettingsMenuOverlay = styled.div<{ pixelSize: number }>`
+  background: ${({ theme }) => theme.color?.background};
   height: 100%;
   width: 100%;
   display: flex;
@@ -27,6 +27,7 @@ const SettingsMenuOverlay = styled.div`
   align-items: center;
   position: fixed;
   z-index: 10;
+  font-size: ${({ pixelSize }) => pixelSize * 2.5}px;
 `;
 
 type SettingsMenuProps = {};
@@ -59,52 +60,64 @@ function SettingsMenu({}: SettingsMenuProps) {
   }
 
   return (
-    <SettingsMenuBase>
-      <BurgerButton onClick={toggleMenu} opened={menuOpened} />
+    <>
+      <Container>
+        <BurgerButton onClick={toggleMenu} opened={menuOpened} />
+      </Container>
       {menuOpened && (
-        <SettingsMenuOverlay>
-          <ThemeSwitcher />
+        <SettingsMenuOverlay pixelSize={pixelSize}>
+          <Container>
+            <SettingsGroup direction="horizontal">
+              <ThemeSwitcher />
+            </SettingsGroup>
 
-          <InputField>
-            <span>Focus</span>
-            <QuantityInput
-              min={1}
-              max={120}
-              defaultValue={pomodoroTotalSeconds / 60}
-              onChange={(number) => changeTotalSeconds("pomodoro", number * 60)}
-              noBorder
-            />
-          </InputField>
+            <SettingsGroup>
+              <InputField noPaddingRight>
+                <span>FOCUS</span>
+                <QuantityInput
+                  min={1}
+                  max={120}
+                  defaultValue={pomodoroTotalSeconds / 60}
+                  onChange={(number) =>
+                    changeTotalSeconds("pomodoro", number * 60)
+                  }
+                  noBorder
+                />
+              </InputField>
 
-          <InputField>
-            <span>Break</span>
-            <QuantityInput
-              min={1}
-              max={120}
-              defaultValue={breakTotalSeconds / 60}
-              onChange={(number) => changeTotalSeconds("break", number * 60)}
-              noBorder
-            />
-          </InputField>
+              <InputField noPaddingRight>
+                <span>BREAK</span>
+                <QuantityInput
+                  min={1}
+                  max={120}
+                  defaultValue={breakTotalSeconds / 60}
+                  onChange={(number) =>
+                    changeTotalSeconds("break", number * 60)
+                  }
+                  noBorder
+                />
+              </InputField>
 
-          <InputField>
-            <span>Pixel Size</span>
-            <QuantityInput
-              min={4}
-              max={8}
-              defaultValue={pixelSize}
-              onChange={(num) => dispatch(setPixelSize(num))}
-              noBorder
-            />
-          </InputField>
+              <InputField noPaddingRight>
+                <span>SIZE</span>
+                <QuantityInput
+                  min={4}
+                  max={8}
+                  defaultValue={pixelSize}
+                  onChange={(num) => dispatch(setPixelSize(num))}
+                  noBorder
+                />
+              </InputField>
 
-          <InputField>
-            <span>Volume</span>
-            <AudioVolumeSlider />
-          </InputField>
+              <InputField>
+                <span>VOLUME</span>
+                <AudioVolumeSlider />
+              </InputField>
+            </SettingsGroup>
+          </Container>
         </SettingsMenuOverlay>
       )}
-    </SettingsMenuBase>
+    </>
   );
 }
 

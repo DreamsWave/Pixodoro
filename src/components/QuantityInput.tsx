@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { useTheme } from "styled-components";
 import { minusIconPixelPositions, plusIconPixelPositions } from "../constants";
 import Button from "./Button";
 import PixelIcon from "./PixelIcon";
@@ -14,14 +14,15 @@ const QuantityInputElement = styled.input<{
   noBorder: boolean;
   numberLength: number;
 }>`
-  max-width: ${({ pixelSize, numberLength }) => pixelSize * 3 * numberLength}px;
+  max-width: ${({ pixelSize, numberLength }) => pixelSize * 4 * numberLength}px;
+  min-width: ${({ pixelSize, numberLength }) => pixelSize * 4 * 2}px;
   background: transparent;
   border: none;
   ${({ noBorder, pixelSize }) =>
     !noBorder &&
     `border-top: ${pixelSize}px solid gray;
   border-bottom: ${pixelSize}px solid gray;`}
-  color: #fff;
+  color: ${({ theme }) => theme.color?.text};
   text-align: center;
   outline: none;
   font-size: ${({ pixelSize }) => pixelSize * 3}px;
@@ -53,6 +54,7 @@ function QuantityInput({
   const [atMininum, setAtMininum] = useState(false);
   const [atMaximum, setAtMaximum] = useState(false);
   const { pixelSize } = usePixelSize();
+  const theme = useTheme();
 
   useEffect(() => {
     if (value === min) {
@@ -95,13 +97,13 @@ function QuantityInput({
   return (
     <QuantityInputBase>
       <Button
-        borderColor="gray"
+        borderColor={theme.color?.border}
         handleClick={decreaseValue}
         noBorder={noBorder}
       >
         <PixelIcon
           pixelPositions={minusIconPixelPositions}
-          color={atMininum ? "gray" : "#fff"}
+          color={atMininum ? theme.color?.disabled : theme.color?.button}
         />
       </Button>
       <QuantityInputElement
@@ -115,13 +117,13 @@ function QuantityInput({
         numberLength={value.toString().length < 2 ? 2 : value.toString().length}
       />
       <Button
-        borderColor="gray"
+        borderColor={theme.color?.border}
         handleClick={increaseValue}
         noBorder={noBorder}
       >
         <PixelIcon
           pixelPositions={plusIconPixelPositions}
-          color={atMaximum ? "gray" : "#fff"}
+          color={atMaximum ? theme.color?.disabled : theme.color?.button}
         />
       </Button>
     </QuantityInputBase>

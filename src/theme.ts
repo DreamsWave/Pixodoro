@@ -5,8 +5,11 @@ const darkThemeColors: ThemeColors = {
   secondary: "#5fc9e7",
   border: "#fff",
   text: "#fff",
-  background: "#32313b",
+  background: "#2f2f2f",
   button: "#fff",
+  disabled: "#494b65",
+  moonColor: "#85daeb",
+  sunColor: "#fdfe89",
 };
 
 const lightThemeColors: ThemeColors = {
@@ -16,6 +19,9 @@ const lightThemeColors: ThemeColors = {
   text: "#444774",
   background: "#fff",
   button: "#9598c1",
+  disabled: "#cfd0e3",
+  moonColor: "#85daeb",
+  sunColor: "#fdfe89",
 };
 
 const defaultTheme: Theme = {};
