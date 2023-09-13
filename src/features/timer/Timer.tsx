@@ -33,7 +33,7 @@ const TimerBase = styled.div<{ pixelSize: number }>`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: ${({ pixelSize }) => pixelSize * 2}px;
+  padding-top: ${({ pixelSize }) => pixelSize * 5}px;
 `;
 
 type TimerProps = {};

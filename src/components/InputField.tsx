@@ -1,19 +1,30 @@
 import styled from "styled-components";
 import { usePixelSize } from "../hooks";
 
-const InputFieldBase = styled.div<{ pixelSize: number }>`
+const InputFieldBase = styled.div<{
+  pixelSize: number;
+  noPaddingRight: boolean;
+}>`
   display: flex;
   width: 100%;
   padding: 0 ${({ pixelSize }) => pixelSize}px;
   justify-content: space-between;
   align-items: center;
   margin-top: ${({ pixelSize }) => pixelSize}px;
+  ${({ noPaddingRight }) => noPaddingRight && `padding-right: 0;`}
+  min-height: ${({ pixelSize }) => pixelSize * 5}px;
 `;
 
-function InputField({ children }: { children: React.ReactNode }) {
+type InputFieldProps = { children: React.ReactNode; noPaddingRight?: boolean };
+
+function InputField({ children, noPaddingRight = false }: InputFieldProps) {
   const { pixelSize } = usePixelSize();
 
-  return <InputFieldBase pixelSize={pixelSize}>{children}</InputFieldBase>;
+  return (
+    <InputFieldBase pixelSize={pixelSize} noPaddingRight={noPaddingRight}>
+      {children}
+    </InputFieldBase>
+  );
 }
 
 export default InputField;

@@ -1,12 +1,42 @@
 import { useState, useEffect } from "react";
 import styled, { useTheme } from "styled-components";
-import { useAppSelector } from "../hooks";
+import { useAppSelector, usePixelSize } from "../hooks";
 import { selectTimer } from "../features/timer/timerSlice";
 
-const TimeBase = styled.span`
-  display: inline-flex;
+const Colon = styled.div<{ pixelSize: number; color?: string }>`
+  display: flex;
+  height: ${({ pixelSize }) => pixelSize * 3}px;
+  width: ${({ pixelSize }) => pixelSize}px;
+  position: relative;
+  margin-left: ${({ pixelSize }) => pixelSize}px;
+  margin-right: ${({ pixelSize }) => pixelSize}px;
+
+  &:before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: ${({ pixelSize }) => pixelSize}px;
+    width: ${({ pixelSize }) => pixelSize}px;
+    background-color: ${({ color }) => color ?? "gray"};
+  }
+  &:after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: ${({ pixelSize }) => pixelSize}px;
+    width: ${({ pixelSize }) => pixelSize}px;
+    background-color: ${({ color }) => color ?? "gray"};
+  }
+`;
+
+const TimeBase = styled.div<{ pixelSize: number }>`
+  display: flex;
+  align-items: center;
   position: absolute;
-  font-size: 1.6rem;
+  font-size: ${({ pixelSize }) => pixelSize * 3.5}px;
+  min-height: ${({ pixelSize }) => pixelSize * 3.5}px;
 `;
 
 function Time() {
@@ -14,6 +44,7 @@ function Time() {
   const [secs, setSecs] = useState<string>("00");
   const { secondsLeft, status } = useAppSelector(selectTimer);
   const theme = useTheme();
+  const { pixelSize } = usePixelSize();
 
   useEffect(() => {
     const m = Math.floor(secondsLeft / 60);
@@ -23,19 +54,15 @@ function Time() {
   }, [secondsLeft]);
 
   return (
-    <TimeBase>
-      {mins}
-      <span
-        style={{
-          color:
-            status === "pomodoro"
-              ? theme.color?.primary
-              : theme.color?.secondary,
-        }}
-      >
-        :
-      </span>
-      {secs}
+    <TimeBase pixelSize={pixelSize}>
+      <span style={{ marginTop: 4 }}>{mins}</span>
+      <Colon
+        pixelSize={pixelSize}
+        color={
+          status === "pomodoro" ? theme.color?.primary : theme.color?.secondary
+        }
+      />
+      <span style={{ marginTop: 4, marginLeft: 2 }}>{secs}</span>
     </TimeBase>
   );
 }

@@ -14,6 +14,7 @@ const ControlsBase = styled.div<{ pixelSize: number }>`
   justify-content: center;
   align-items: center;
   gap: ${({ pixelSize }) => pixelSize}px;
+  margin-top: ${({ pixelSize }) => pixelSize * 3}px;
 `;
 
 type ControlsProps = {

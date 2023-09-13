@@ -4,12 +4,15 @@ export interface Theme {
 }
 
 export interface ThemeColors {
-  primary: string;
-  secondary: string;
-  border: string;
-  text: string;
-  background: string;
-  button: string;
+  primary?: string;
+  secondary?: string;
+  border?: string;
+  text?: string;
+  background?: string;
+  button?: string;
+  disabled?: string;
+  moonColor?: string;
+  sunColor?: string;
 }
 
 export type ThemeType = "dark" | "light";
