@@ -7,11 +7,13 @@ import {
 import { useAppDispatch, useAppSelector } from "../hooks";
 import Button from "./Button";
 import PixelIcon from "./PixelIcon";
+import { selectTimer } from "../features/timer/timerSlice";
 
 function ThemeSwitcher() {
   const { theme } = useAppSelector(selectAppSettings);
   const dispatch = useAppDispatch();
   const styledTheme = useTheme();
+  const { status } = useAppSelector(selectTimer);
 
   return (
     <>
@@ -19,7 +21,11 @@ function ThemeSwitcher() {
         <Button handleClick={() => dispatch(setTheme("light"))} noBorder>
           <PixelIcon
             pixelPositions={sunIconPixelPositions}
-            color={styledTheme.color?.sunColor}
+            color={
+              status === "pomodoro"
+                ? styledTheme.color?.primary
+                : styledTheme.color?.secondary
+            }
           />
         </Button>
       )}
@@ -27,7 +33,11 @@ function ThemeSwitcher() {
         <Button handleClick={() => dispatch(setTheme("dark"))} noBorder>
           <PixelIcon
             pixelPositions={moonIconPixelPositions}
-            color={styledTheme.color?.moonColor}
+            color={
+              status === "pomodoro"
+                ? styledTheme.color?.primary
+                : styledTheme.color?.secondary
+            }
           />
         </Button>
       )}

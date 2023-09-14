@@ -2,8 +2,9 @@ import styled, { useTheme } from "styled-components";
 import { minusIconPixelPositions, plusIconPixelPositions } from "../constants";
 import Button from "./Button";
 import PixelIcon from "./PixelIcon";
-import { usePixelSize } from "../hooks";
+import { useAppSelector, usePixelSize } from "../hooks";
 import { useEffect, useState } from "react";
+import { selectTimer } from "../features/timer/timerSlice";
 
 const QuantityInputBase = styled.div`
   display: flex;
@@ -15,7 +16,7 @@ const QuantityInputElement = styled.input<{
   numberLength: number;
 }>`
   max-width: ${({ pixelSize, numberLength }) => pixelSize * 4 * numberLength}px;
-  min-width: ${({ pixelSize, numberLength }) => pixelSize * 4 * 2}px;
+  min-width: ${({ pixelSize }) => pixelSize * 4 * 2}px;
   background: transparent;
   border: none;
   ${({ noBorder, pixelSize }) =>
@@ -55,6 +56,7 @@ function QuantityInput({
   const [atMaximum, setAtMaximum] = useState(false);
   const { pixelSize } = usePixelSize();
   const theme = useTheme();
+  const { status } = useAppSelector(selectTimer);
 
   useEffect(() => {
     if (value === min) {
@@ -103,7 +105,13 @@ function QuantityInput({
       >
         <PixelIcon
           pixelPositions={minusIconPixelPositions}
-          color={atMininum ? theme.color?.disabled : theme.color?.button}
+          color={
+            atMininum
+              ? theme.color?.disabled
+              : status === "pomodoro"
+              ? theme.color?.primary
+              : theme.color?.secondary
+          }
         />
       </Button>
       <QuantityInputElement
@@ -123,7 +131,13 @@ function QuantityInput({
       >
         <PixelIcon
           pixelPositions={plusIconPixelPositions}
-          color={atMaximum ? theme.color?.disabled : theme.color?.button}
+          color={
+            atMaximum
+              ? theme.color?.disabled
+              : status === "pomodoro"
+              ? theme.color?.primary
+              : theme.color?.secondary
+          }
         />
       </Button>
     </QuantityInputBase>
