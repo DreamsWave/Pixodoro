@@ -17,6 +17,7 @@ import QuantityInput from "./QuantityInput";
 import { setPixelSize } from "../features/appSettings/appSettingsSlice";
 import Container from "./Container";
 import SettingsGroup from "./SettingsGroup";
+import MusicSwitcher from "./MusicSwitcher";
 
 const SettingsMenuOverlay = styled.div<{ pixelSize: number }>`
   background: ${({ theme }) => theme.color?.background};
@@ -69,6 +70,7 @@ function SettingsMenu({}: SettingsMenuProps) {
           <Container>
             <SettingsGroup direction="horizontal">
               <ThemeSwitcher />
+              <MusicSwitcher />
             </SettingsGroup>
 
             <SettingsGroup>

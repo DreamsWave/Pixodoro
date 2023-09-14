@@ -7,7 +7,8 @@ import {
   skipIconPixelPositions,
   stopIconPixelPositions,
 } from "../constants";
-import { usePixelSize } from "../hooks";
+import { useAppSelector, usePixelSize } from "../hooks";
+import { selectTimer } from "../features/timer/timerSlice";
 
 const ControlsBase = styled.div<{ pixelSize: number }>`
   display: flex;
@@ -28,24 +29,32 @@ function Controls({
   handleTimerStop,
   handleTimerEnd,
   handleTimerToggle,
-  ...props
 }: ControlsProps) {
   const { pixelSize } = usePixelSize();
   const theme = useTheme();
+  const { status } = useAppSelector(selectTimer);
   return (
     <ControlsBase pixelSize={pixelSize}>
       {running ? (
         <Button handleClick={handleTimerToggle} noBorder>
           <PixelIcon
             pixelPositions={pauseIconPixelPositions}
-            color={theme.color?.button}
+            color={
+              status === "pomodoro"
+                ? theme.color?.primary
+                : theme.color?.secondary
+            }
           />
         </Button>
       ) : (
         <Button handleClick={handleTimerToggle} noBorder>
           <PixelIcon
             pixelPositions={playIconPixelPositions}
-            color={theme.color?.button}
+            color={
+              status === "pomodoro"
+                ? theme.color?.primary
+                : theme.color?.secondary
+            }
           />
         </Button>
       )}
@@ -53,14 +62,22 @@ function Controls({
         <Button handleClick={handleTimerStop} noBorder>
           <PixelIcon
             pixelPositions={stopIconPixelPositions}
-            color={theme.color?.button}
+            color={
+              status === "pomodoro"
+                ? theme.color?.primary
+                : theme.color?.secondary
+            }
           />
         </Button>
       ) : (
         <Button handleClick={handleTimerEnd} noBorder>
           <PixelIcon
             pixelPositions={skipIconPixelPositions}
-            color={theme.color?.button}
+            color={
+              status === "pomodoro"
+                ? theme.color?.primary
+                : theme.color?.secondary
+            }
           />
         </Button>
       )}

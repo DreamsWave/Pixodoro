@@ -11,8 +11,6 @@ export interface ThemeColors {
   background?: string;
   button?: string;
   disabled?: string;
-  moonColor?: string;
-  sunColor?: string;
 }
 
 export type ThemeType = "dark" | "light";

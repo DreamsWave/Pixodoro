@@ -3,7 +3,13 @@ import {
   selectAppSettings,
   setVolume,
 } from "../features/appSettings/appSettingsSlice";
-import { useAppDispatch, useAppSelector, usePixelSize } from "../hooks";
+import {
+  useAppDispatch,
+  useAppSelector,
+  usePixelSize,
+  useTimer,
+} from "../hooks";
+import { selectTimer } from "../features/timer/timerSlice";
 
 const Slider = styled.input<{ pixelSize: number; thumbColor?: string }>`
   -webkit-appearance: none;
@@ -39,6 +45,7 @@ function AudioVolumeSlider() {
   const { audioVolume, theme } = useAppSelector(selectAppSettings);
   const dispatch = useAppDispatch();
   const styledTheme = useTheme();
+  const { status } = useAppSelector(selectTimer);
 
   return (
     <Slider
@@ -49,9 +56,9 @@ function AudioVolumeSlider() {
       value={audioVolume * 100}
       onChange={(e) => dispatch(setVolume(+e.target.value / 100))}
       thumbColor={
-        theme === "dark"
-          ? styledTheme.color?.sunColor
-          : styledTheme.color?.moonColor
+        status === "pomodoro"
+          ? styledTheme.color?.primary
+          : styledTheme.color?.secondary
       }
     />
   );
