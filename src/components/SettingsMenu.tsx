@@ -17,7 +17,8 @@ import QuantityInput from "./QuantityInput";
 import { setPixelSize } from "../features/appSettings/appSettingsSlice";
 import Container from "./Container";
 import SettingsGroup from "./SettingsGroup";
-import MusicSwitcher from "./MusicSwitcher";
+import MusicSwitcher from "../features/music/MusicSwitcher";
+import MusicVolumeSlider from "../features/music/MusicVolumeSlider";
 
 const SettingsMenuOverlay = styled.div<{ pixelSize: number }>`
   background: ${({ theme }) => theme.color?.background};
@@ -112,8 +113,13 @@ function SettingsMenu({}: SettingsMenuProps) {
               </InputField>
 
               <InputField>
-                <span>VOLUME</span>
+                <span>EFFECTS</span>
                 <AudioVolumeSlider />
+              </InputField>
+
+              <InputField>
+                <span>MUSIC</span>
+                <MusicVolumeSlider />
               </InputField>
             </SettingsGroup>
           </Container>

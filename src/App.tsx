@@ -4,6 +4,7 @@ import SettingsMenu from "./components/SettingsMenu";
 import Timer from "./features/timer/Timer";
 import themes from "./theme";
 import { selectAppSettings } from "./features/appSettings/appSettingsSlice";
+import Music from "./features/music/Music";
 
 const Layout = styled.div<{ pixelSize: number }>`
   font-size: ${({ pixelSize }) => pixelSize * 2}px;
@@ -21,6 +22,7 @@ function App() {
       <Layout pixelSize={pixelSize}>
         <SettingsMenu />
         <Timer />
+        <Music />
       </Layout>
     </ThemeProvider>
   );
