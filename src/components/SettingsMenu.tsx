@@ -56,7 +56,7 @@ function SettingsMenu({}: SettingsMenuProps) {
         dispatch(setCurrentBreakTotalSeconds(sec));
       }
     }
-    if (type === status) {
+    if (type === status && !started) {
       dispatch(setSecondsLeft(sec));
     }
   }
