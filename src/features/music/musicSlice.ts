@@ -8,7 +8,7 @@ interface MusicState {
 }
 
 const initialState: MusicState = {
-  volume: 0.5,
+  volume: 0.3,
   name: "song",
   playing: false,
 };
