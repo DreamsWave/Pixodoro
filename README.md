@@ -1,5 +1,3 @@
-## Pixel art style Pomodoro timer app
+## Pomodoro desktop application
 
-_Concept:_
-
-![image](./concept.jpg)
+![image](./showcase.webp)
