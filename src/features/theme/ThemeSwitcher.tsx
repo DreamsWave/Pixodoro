@@ -4,36 +4,36 @@ import { useAppDispatch, useAppSelector } from "../../hooks";
 import Button from "../../components/Button";
 import PixelIcon from "../../components/PixelIcon";
 import { selectTimer } from "../timer/timerSlice";
-import { selectTheme, setTheme } from "./themeSlice";
+import { selectTheme, setDarkTheme, setLightTheme } from "./themeSlice";
 
 function ThemeSwitcher() {
-  const { theme } = useAppSelector(selectTheme);
+  const { darkmode } = useAppSelector(selectTheme);
   const dispatch = useAppDispatch();
   const styledTheme = useTheme();
   const { status } = useAppSelector(selectTimer);
 
   return (
     <>
-      {theme === "dark" && (
-        <Button handleClick={() => dispatch(setTheme("light"))}>
+      {darkmode && (
+        <Button handleClick={() => dispatch(setLightTheme())}>
           <PixelIcon
             pixelPositions={sunIconPixelPositions}
             color={
               status === "pomodoro"
-                ? styledTheme.color?.primary
-                : styledTheme.color?.secondary
+                ? styledTheme.colors.primary
+                : styledTheme.colors.secondary
             }
           />
         </Button>
       )}
-      {theme === "light" && (
-        <Button handleClick={() => dispatch(setTheme("dark"))}>
+      {!darkmode && (
+        <Button handleClick={() => dispatch(setDarkTheme())}>
           <PixelIcon
             pixelPositions={moonIconPixelPositions}
             color={
               status === "pomodoro"
-                ? styledTheme.color?.primary
-                : styledTheme.color?.secondary
+                ? styledTheme.colors.primary
+                : styledTheme.colors.secondary
             }
           />
         </Button>

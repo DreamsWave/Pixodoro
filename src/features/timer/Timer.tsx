@@ -13,7 +13,6 @@ import {
   setSecondsLeft,
 } from "./timerSlice";
 import Controls from "../../components/Controls";
-import { usePixel } from "../pixel/usePixel";
 import { useAudio } from "../audio/useAudio";
 import { useTimer } from "./useTimer";
 
@@ -24,18 +23,17 @@ const Clock = styled.div`
   align-items: center;
 `;
 
-const TimerBase = styled.div<{ pixelSize: number }>`
+const TimerBase = styled.div`
   position: relative;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding-top: ${({ pixelSize }) => pixelSize * 5}px;
+  padding-top: ${({ theme: { pixelSize } }) => pixelSize * 5}px;
 `;
 
 type TimerProps = {};
 function Timer({}: TimerProps) {
-  const { pixelSize } = usePixel();
   const {
     pomodoroTotalSeconds,
     breakTotalSeconds,
@@ -110,14 +108,14 @@ function Timer({}: TimerProps) {
   }
 
   return (
-    <TimerBase pixelSize={pixelSize}>
+    <TimerBase>
       <Clock>
         <PixelCircle
           progress={progress}
           color={
             status === "pomodoro"
-              ? theme.color?.primary
-              : theme.color?.secondary
+              ? theme.colors.primary
+              : theme.colors.secondary
           }
         />
         <Time />

@@ -19,9 +19,9 @@ function MusicSwitcher() {
         color={
           playing
             ? status === "pomodoro"
-              ? theme.color?.primary
-              : theme.color?.secondary
-            : theme.color?.button
+              ? theme.colors.primary
+              : theme.colors.secondary
+            : theme.colors.button
         }
       />
     </Button>

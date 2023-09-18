@@ -10,13 +10,11 @@ import timerReducer from "./features/timer/timerSlice";
 import musicReducer from "./features/music/musicSlice";
 import audioReducer from "./features/audio/audioSlice";
 import themeReducer from "./features/theme/themeSlice";
-import pixelReducer from "./features/pixel/pixelSlice";
 
 const rootReducer = combineReducers({
   timer: timerReducer,
   music: musicReducer,
   theme: themeReducer,
-  pixel: pixelReducer,
   audio: audioReducer,
 });
 

@@ -5,24 +5,23 @@ import PixelIcon from "./PixelIcon";
 import { useAppSelector } from "../hooks";
 import { useEffect, useState } from "react";
 import { selectTimer } from "../features/timer/timerSlice";
-import { usePixel } from "../features/pixel/usePixel";
 
 const QuantityInputBase = styled.div`
   display: flex;
 `;
 
 const QuantityInputElement = styled.input<{
-  pixelSize: number;
   numberLength: number;
 }>`
-  max-width: ${({ pixelSize, numberLength }) => pixelSize * 4 * numberLength}px;
-  min-width: ${({ pixelSize }) => pixelSize * 4 * 2}px;
+  max-width: ${({ theme: { pixelSize }, numberLength }) =>
+    pixelSize * 4 * numberLength}px;
+  min-width: ${({ theme: { pixelSize } }) => pixelSize * 4 * 2}px;
   background: transparent;
   border: none;
-  color: ${({ theme }) => theme.color?.text};
+  color: ${({ theme }) => theme.colors.text};
   text-align: center;
   outline: none;
-  font-size: ${({ pixelSize }) => pixelSize * 3}px;
+  font-size: ${({ theme: { pixelSize } }) => pixelSize * 3}px;
 
   &::-webkit-inner-spin-button {
     -webkit-appearance: none;
@@ -48,7 +47,7 @@ function QuantityInput({
   const [value, setValue] = useState(defaultValue);
   const [atMininum, setAtMininum] = useState(false);
   const [atMaximum, setAtMaximum] = useState(false);
-  const { pixelSize } = usePixel();
+
   const theme = useTheme();
   const { status } = useAppSelector(selectTimer);
 
@@ -92,20 +91,19 @@ function QuantityInput({
 
   return (
     <QuantityInputBase>
-      <Button borderColor={theme.color?.border} handleClick={decreaseValue}>
+      <Button borderColor={theme.colors.border} handleClick={decreaseValue}>
         <PixelIcon
           pixelPositions={minusIconPixelPositions}
           color={
             atMininum
-              ? theme.color?.disabled
+              ? theme.colors.disabled
               : status === "pomodoro"
-              ? theme.color?.primary
-              : theme.color?.secondary
+              ? theme.colors.primary
+              : theme.colors.secondary
           }
         />
       </Button>
       <QuantityInputElement
-        pixelSize={pixelSize}
         type="number"
         min={min}
         max={max}
@@ -113,15 +111,15 @@ function QuantityInput({
         onChange={(e) => inputChange(+e.target.value)}
         numberLength={value.toString().length < 2 ? 2 : value.toString().length}
       />
-      <Button borderColor={theme.color?.border} handleClick={increaseValue}>
+      <Button borderColor={theme.colors.border} handleClick={increaseValue}>
         <PixelIcon
           pixelPositions={plusIconPixelPositions}
           color={
             atMaximum
-              ? theme.color?.disabled
+              ? theme.colors.disabled
               : status === "pomodoro"
-              ? theme.color?.primary
-              : theme.color?.secondary
+              ? theme.colors.primary
+              : theme.colors.secondary
           }
         />
       </Button>

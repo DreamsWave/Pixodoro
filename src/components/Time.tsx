@@ -2,23 +2,22 @@ import { useState, useEffect } from "react";
 import styled, { useTheme } from "styled-components";
 import { useAppSelector } from "../hooks";
 import { selectTimer } from "../features/timer/timerSlice";
-import { usePixel } from "../features/pixel/usePixel";
 
-const Colon = styled.div<{ pixelSize: number; color?: string }>`
+const Colon = styled.div<{ color?: string }>`
   display: flex;
-  height: ${({ pixelSize }) => pixelSize * 3}px;
-  width: ${({ pixelSize }) => pixelSize}px;
+  height: ${({ theme: { pixelSize } }) => pixelSize * 3}px;
+  width: ${({ theme: { pixelSize } }) => pixelSize}px;
   position: relative;
-  margin-left: ${({ pixelSize }) => pixelSize}px;
-  margin-right: ${({ pixelSize }) => pixelSize}px;
+  margin-left: ${({ theme: { pixelSize } }) => pixelSize}px;
+  margin-right: ${({ theme: { pixelSize } }) => pixelSize}px;
 
   &:before {
     content: "";
     position: absolute;
     top: 0;
     left: 0;
-    height: ${({ pixelSize }) => pixelSize}px;
-    width: ${({ pixelSize }) => pixelSize}px;
+    height: ${({ theme: { pixelSize } }) => pixelSize}px;
+    width: ${({ theme: { pixelSize } }) => pixelSize}px;
     background-color: ${({ color }) => color ?? "gray"};
   }
   &:after {
@@ -26,18 +25,18 @@ const Colon = styled.div<{ pixelSize: number; color?: string }>`
     position: absolute;
     bottom: 0;
     left: 0;
-    height: ${({ pixelSize }) => pixelSize}px;
-    width: ${({ pixelSize }) => pixelSize}px;
+    height: ${({ theme: { pixelSize } }) => pixelSize}px;
+    width: ${({ theme: { pixelSize } }) => pixelSize}px;
     background-color: ${({ color }) => color ?? "gray"};
   }
 `;
 
-const TimeBase = styled.div<{ pixelSize: number }>`
+const TimeBase = styled.div`
   display: flex;
   align-items: center;
   position: absolute;
-  font-size: ${({ pixelSize }) => pixelSize * 3.5}px;
-  min-height: ${({ pixelSize }) => pixelSize * 3.5}px;
+  font-size: ${({ theme: { pixelSize } }) => pixelSize * 3.5}px;
+  min-height: ${({ theme: { pixelSize } }) => pixelSize * 3.5}px;
 `;
 
 function Time() {
@@ -45,7 +44,6 @@ function Time() {
   const [secs, setSecs] = useState<string>("00");
   const { secondsLeft, status } = useAppSelector(selectTimer);
   const theme = useTheme();
-  const { pixelSize } = usePixel();
 
   useEffect(() => {
     const m = Math.floor(secondsLeft / 60);
@@ -55,12 +53,11 @@ function Time() {
   }, [secondsLeft]);
 
   return (
-    <TimeBase pixelSize={pixelSize}>
+    <TimeBase>
       <span style={{ marginTop: 4 }}>{mins}</span>
       <Colon
-        pixelSize={pixelSize}
         color={
-          status === "pomodoro" ? theme.color?.primary : theme.color?.secondary
+          status === "pomodoro" ? theme.colors.primary : theme.colors.secondary
         }
       />
       <span style={{ marginTop: 4, marginLeft: 2 }}>{secs}</span>

@@ -1,26 +1,38 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../../store";
-import { ThemeType } from "../../types/themeTypes";
+import { darkThemeColors, lightThemeColors, ThemeColors } from "./theme";
 
-interface ThemeState {
-  theme: ThemeType;
+export interface ThemeState {
+  colors: ThemeColors;
+  pixelSize: number;
+  darkmode: boolean;
 }
 
 const initialState: ThemeState = {
-  theme: "dark",
+  colors: darkThemeColors,
+  darkmode: true,
+  pixelSize: 8,
 };
 
 export const themeSlice = createSlice({
   name: "theme",
   initialState,
   reducers: {
-    setTheme: (state, action: PayloadAction<ThemeType>) => {
-      state.theme = action.payload;
+    setDarkTheme: (state) => {
+      state.colors = darkThemeColors;
+      state.darkmode = true;
+    },
+    setLightTheme: (state) => {
+      state.colors = lightThemeColors;
+      state.darkmode = false;
+    },
+    setPixelSize: (state, action: PayloadAction<number>) => {
+      state.pixelSize = action.payload;
     },
   },
 });
 
-export const { setTheme } = themeSlice.actions;
+export const { setDarkTheme, setLightTheme, setPixelSize } = themeSlice.actions;
 
 export const selectTheme = (state: RootState) => state.theme;
 
