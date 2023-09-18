@@ -5,15 +5,13 @@ type ButtonBaseProps = {
   fontColor: string;
   pixelSize: number;
   fontSize: number;
-  noBorder?: boolean;
 };
 
 const ButtonBase = styled.button<ButtonBaseProps>`
   position: relative;
   background: transparent;
   color: ${({ fontColor }) => fontColor};
-  padding: ${({ pixelSize, noBorder }) =>
-    noBorder ? pixelSize : pixelSize * 2}px;
+  padding: ${({ pixelSize }) => pixelSize}px;
   border: none;
   cursor: pointer;
   font-family: PressStart2P, Inter, Avenir, Helvetica, Arial, sans-serif;
@@ -21,49 +19,6 @@ const ButtonBase = styled.button<ButtonBaseProps>`
   display: flex;
   justify-content: center;
   align-items: center;
-`;
-
-const Border = styled.div`
-  position: absolute;
-  inset: 0;
-`;
-
-type BorderSideProps = {
-  pixelSize: number;
-  color: string;
-};
-
-const BorderTop = styled.span<BorderSideProps>`
-  position: absolute;
-  top: 0;
-  left: ${({ pixelSize }) => pixelSize}px;
-  height: ${({ pixelSize }) => pixelSize}px;
-  width: calc(100% - ${({ pixelSize }) => pixelSize * 2}px);
-  background-color: ${({ color }) => color};
-`;
-const BorderRight = styled.span<BorderSideProps>`
-  position: absolute;
-  top: ${({ pixelSize }) => pixelSize}px;
-  right: 0;
-  height: calc(100% - ${({ pixelSize }) => pixelSize * 2}px);
-  width: ${({ pixelSize }) => pixelSize}px;
-  background-color: ${({ color }) => color};
-`;
-const BorderBottom = styled.span<BorderSideProps>`
-  position: absolute;
-  bottom: 0;
-  left: ${({ pixelSize }) => pixelSize}px;
-  height: ${({ pixelSize }) => pixelSize}px;
-  width: calc(100% - ${({ pixelSize }) => pixelSize * 2}px);
-  background-color: ${({ color }) => color};
-`;
-const BorderLeft = styled.span<BorderSideProps>`
-  position: absolute;
-  top: ${({ pixelSize }) => pixelSize}px;
-  left: 0;
-  height: calc(100% - ${({ pixelSize }) => pixelSize * 2}px);
-  width: ${({ pixelSize }) => pixelSize}px;
-  background-color: ${({ color }) => color};
 `;
 
 type ButtonProps = {
@@ -74,7 +29,6 @@ type ButtonProps = {
   uppercase?: boolean;
   children: React.ReactNode;
   handleClick?: () => void;
-  noBorder?: boolean;
 };
 
 function Button({
@@ -83,7 +37,6 @@ function Button({
   fontColor = "#fff",
   fontSize = 24,
   uppercase = true,
-  noBorder = false,
   handleClick,
   children,
   ...props
@@ -95,17 +48,8 @@ function Button({
       fontColor={fontColor}
       pixelSize={pixelSize}
       fontSize={fontSize}
-      noBorder={noBorder}
       {...props}
     >
-      {!noBorder && (
-        <Border>
-          <BorderTop pixelSize={pixelSize} color={borderColor} />
-          <BorderRight pixelSize={pixelSize} color={borderColor} />
-          <BorderBottom pixelSize={pixelSize} color={borderColor} />
-          <BorderLeft pixelSize={pixelSize} color={borderColor} />
-        </Border>
-      )}
       {children}
     </ButtonBase>
   );

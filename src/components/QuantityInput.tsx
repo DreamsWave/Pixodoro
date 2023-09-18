@@ -12,17 +12,12 @@ const QuantityInputBase = styled.div`
 
 const QuantityInputElement = styled.input<{
   pixelSize: number;
-  noBorder: boolean;
   numberLength: number;
 }>`
   max-width: ${({ pixelSize, numberLength }) => pixelSize * 4 * numberLength}px;
   min-width: ${({ pixelSize }) => pixelSize * 4 * 2}px;
   background: transparent;
   border: none;
-  ${({ noBorder, pixelSize }) =>
-    !noBorder &&
-    `border-top: ${pixelSize}px solid gray;
-  border-bottom: ${pixelSize}px solid gray;`}
   color: ${({ theme }) => theme.color?.text};
   text-align: center;
   outline: none;
@@ -42,14 +37,12 @@ type QuantityInputProps = {
   max?: number;
   defaultValue?: number;
   onChange?: (value: number) => void;
-  noBorder?: boolean;
 };
 function QuantityInput({
   min = 0,
   max = 10,
   defaultValue = 5,
   onChange,
-  noBorder = false,
 }: QuantityInputProps) {
   const [value, setValue] = useState(defaultValue);
   const [atMininum, setAtMininum] = useState(false);
@@ -98,11 +91,7 @@ function QuantityInput({
 
   return (
     <QuantityInputBase>
-      <Button
-        borderColor={theme.color?.border}
-        handleClick={decreaseValue}
-        noBorder={noBorder}
-      >
+      <Button borderColor={theme.color?.border} handleClick={decreaseValue}>
         <PixelIcon
           pixelPositions={minusIconPixelPositions}
           color={
@@ -115,7 +104,6 @@ function QuantityInput({
         />
       </Button>
       <QuantityInputElement
-        noBorder={noBorder}
         pixelSize={pixelSize}
         type="number"
         min={min}
@@ -124,11 +112,7 @@ function QuantityInput({
         onChange={(e) => inputChange(+e.target.value)}
         numberLength={value.toString().length < 2 ? 2 : value.toString().length}
       />
-      <Button
-        borderColor={theme.color?.border}
-        handleClick={increaseValue}
-        noBorder={noBorder}
-      >
+      <Button borderColor={theme.color?.border} handleClick={increaseValue}>
         <PixelIcon
           pixelPositions={plusIconPixelPositions}
           color={

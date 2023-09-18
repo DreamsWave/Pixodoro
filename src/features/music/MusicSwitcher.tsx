@@ -13,7 +13,7 @@ function MusicSwitcher() {
   const theme = useTheme();
 
   return (
-    <Button noBorder handleClick={() => dispatch(setPlaying(!playing))}>
+    <Button handleClick={() => dispatch(setPlaying(!playing))}>
       <PixelIcon
         pixelPositions={notesIconPixelPositions}
         color={

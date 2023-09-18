@@ -28,7 +28,7 @@ function BurgerButton({
   const theme = useTheme();
   return (
     <BurgerButtonBase pixelSize={pixelSize} onClick={onClick} {...props}>
-      <Button noBorder={true}>
+      <Button>
         {opened ? (
           <PixelIcon
             pixelPositions={closeIconPixelPositions}

@@ -1,8 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { circlePixelsPosition } from "../constants";
-import { useAppSelector, usePixelSize } from "../hooks";
-import { selectAppSettings } from "../features/appSettings/appSettingsSlice";
+import { usePixelSize } from "../hooks";
 
 type PixelProps = {
   pixelSize: number;

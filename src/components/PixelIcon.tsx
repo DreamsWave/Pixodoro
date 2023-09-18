@@ -9,8 +9,8 @@ function PixelIcon({ color = "#000", pixelPositions }: PixelIconProps) {
   return (
     <svg
       version="1.1"
-      width={Math.max(...pixelPositions.map(([x, y]) => x + 1)) * pixelSize}
-      height={Math.max(...pixelPositions.map(([x, y]) => y + 1)) * pixelSize}
+      width={Math.max(...pixelPositions.map(([x]) => x + 1)) * pixelSize}
+      height={Math.max(...pixelPositions.map(([, y]) => y + 1)) * pixelSize}
       xmlns="http://www.w3.org/2000/svg"
       shape-rendering="crispEdges"
     >

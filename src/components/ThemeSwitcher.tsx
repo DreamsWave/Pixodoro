@@ -18,7 +18,7 @@ function ThemeSwitcher() {
   return (
     <>
       {theme === "dark" && (
-        <Button handleClick={() => dispatch(setTheme("light"))} noBorder>
+        <Button handleClick={() => dispatch(setTheme("light"))}>
           <PixelIcon
             pixelPositions={sunIconPixelPositions}
             color={
@@ -30,7 +30,7 @@ function ThemeSwitcher() {
         </Button>
       )}
       {theme === "light" && (
-        <Button handleClick={() => dispatch(setTheme("dark"))} noBorder>
+        <Button handleClick={() => dispatch(setTheme("dark"))}>
           <PixelIcon
             pixelPositions={moonIconPixelPositions}
             color={
