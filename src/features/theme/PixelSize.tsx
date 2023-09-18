@@ -1,9 +1,9 @@
 import QuantityInput from "../../components/QuantityInput";
 import { useAppDispatch, useAppSelector } from "../../hooks";
-import { selectPixel, setPixelSize } from "./pixelSlice";
+import { selectTheme, setPixelSize } from "./themeSlice";
 
 function PixelSize() {
-  const { pixelSize } = useAppSelector(selectPixel);
+  const { pixelSize } = useAppSelector(selectTheme);
   const dispatch = useAppDispatch();
 
   return (

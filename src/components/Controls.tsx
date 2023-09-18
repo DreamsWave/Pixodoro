@@ -9,14 +9,13 @@ import {
 } from "../constants";
 import { useAppSelector } from "../hooks";
 import { selectTimer } from "../features/timer/timerSlice";
-import { usePixel } from "../features/pixel/usePixel";
 
-const ControlsBase = styled.div<{ pixelSize: number }>`
+const ControlsBase = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: ${({ pixelSize }) => pixelSize}px;
-  margin-top: ${({ pixelSize }) => pixelSize * 3}px;
+  gap: ${({ theme: { pixelSize } }) => pixelSize}px;
+  margin-top: ${({ theme: { pixelSize } }) => pixelSize * 3}px;
 `;
 
 type ControlsProps = {
@@ -31,19 +30,18 @@ function Controls({
   handleTimerEnd,
   handleTimerToggle,
 }: ControlsProps) {
-  const { pixelSize } = usePixel();
   const theme = useTheme();
   const { status } = useAppSelector(selectTimer);
   return (
-    <ControlsBase pixelSize={pixelSize}>
+    <ControlsBase>
       {running ? (
         <Button handleClick={handleTimerToggle}>
           <PixelIcon
             pixelPositions={pauseIconPixelPositions}
             color={
               status === "pomodoro"
-                ? theme.color?.primary
-                : theme.color?.secondary
+                ? theme.colors.primary
+                : theme.colors.secondary
             }
           />
         </Button>
@@ -53,8 +51,8 @@ function Controls({
             pixelPositions={playIconPixelPositions}
             color={
               status === "pomodoro"
-                ? theme.color?.primary
-                : theme.color?.secondary
+                ? theme.colors.primary
+                : theme.colors.secondary
             }
           />
         </Button>
@@ -65,8 +63,8 @@ function Controls({
             pixelPositions={stopIconPixelPositions}
             color={
               status === "pomodoro"
-                ? theme.color?.primary
-                : theme.color?.secondary
+                ? theme.colors.primary
+                : theme.colors.secondary
             }
           />
         </Button>
@@ -76,8 +74,8 @@ function Controls({
             pixelPositions={skipIconPixelPositions}
             color={
               status === "pomodoro"
-                ? theme.color?.primary
-                : theme.color?.secondary
+                ? theme.colors.primary
+                : theme.colors.secondary
             }
           />
         </Button>

@@ -7,13 +7,12 @@ import InputField from "./InputField";
 import Container from "./Container";
 import SettingsGroup from "./SettingsGroup";
 import MusicSwitcher from "../features/music/MusicSwitcher";
-import PixelSize from "../features/pixel/PixelSize";
+import PixelSize from "../features/theme/PixelSize";
 import MusicVolume from "../features/music/MusicVolume";
 import TimerInput from "../features/timer/TimerInput";
-import { usePixel } from "../features/pixel/usePixel";
 
-const SettingsMenuOverlay = styled.div<{ pixelSize: number }>`
-  background: ${({ theme }) => theme.color?.background};
+const SettingsMenuOverlay = styled.div`
+  background: ${({ theme }) => theme.colors.background};
   height: 100%;
   width: 100%;
   display: flex;
@@ -21,13 +20,12 @@ const SettingsMenuOverlay = styled.div<{ pixelSize: number }>`
   align-items: center;
   position: fixed;
   z-index: 10;
-  font-size: ${({ pixelSize }) => pixelSize * 2.5}px;
+  font-size: ${({ theme: { pixelSize } }) => pixelSize * 2.5}px;
 `;
 
 type SettingsMenuProps = {};
 function SettingsMenu({}: SettingsMenuProps) {
   const [menuOpened, setMenuOpened] = useState(false);
-  const { pixelSize } = usePixel();
 
   function toggleMenu() {
     setMenuOpened(!menuOpened);
@@ -39,7 +37,7 @@ function SettingsMenu({}: SettingsMenuProps) {
         <BurgerButton onClick={toggleMenu} opened={menuOpened} />
       </Container>
       {menuOpened && (
-        <SettingsMenuOverlay pixelSize={pixelSize}>
+        <SettingsMenuOverlay>
           <Container>
             <SettingsGroup direction="horizontal">
               <ThemeSwitcher />

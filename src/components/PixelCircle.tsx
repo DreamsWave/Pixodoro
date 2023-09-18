@@ -1,10 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { circlePixelsPosition } from "../constants";
-import { usePixel } from "../features/pixel/usePixel";
 
 type PixelProps = {
-  pixelSize: number;
   color: string;
   positionX: number;
   positionY: number;
@@ -12,17 +10,16 @@ type PixelProps = {
 };
 const Pixel = styled.span<PixelProps>`
   display: flex;
-  width: ${({ pixelSize }) => pixelSize}px;
-  height: ${({ pixelSize }) => pixelSize}px;
+  width: ${({ theme: { pixelSize } }) => pixelSize}px;
+  height: ${({ theme: { pixelSize } }) => pixelSize}px;
   background-color: ${({ color, active, theme }) =>
-    active ? color : theme.color?.border};
+    active ? color : theme.colors.border};
   position: absolute;
-  top: ${({ pixelSize, positionY }) => pixelSize * positionY}px;
-  left: ${({ pixelSize, positionX }) => pixelSize * positionX}px;
+  top: ${({ theme: { pixelSize }, positionY }) => pixelSize * positionY}px;
+  left: ${({ theme: { pixelSize }, positionX }) => pixelSize * positionX}px;
 `;
 
 type PixeledCircleBaseProps = {
-  pixelSize: number;
   diameter: number;
 };
 const PixeledCircleBase = styled.div<PixeledCircleBaseProps>`
@@ -30,8 +27,8 @@ const PixeledCircleBase = styled.div<PixeledCircleBaseProps>`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: ${({ diameter, pixelSize }) => diameter * pixelSize}px;
-  height: ${({ diameter, pixelSize }) => diameter * pixelSize}px;
+  width: ${({ diameter, theme: { pixelSize } }) => diameter * pixelSize}px;
+  height: ${({ diameter, theme: { pixelSize } }) => diameter * pixelSize}px;
   margin: 0 auto;
 `;
 
@@ -43,18 +40,16 @@ function PixelCircle({ progress = 0, color = "red" }: PixeledCircleProps) {
   const [activePixels, setActivePixels] = useState<number>(0);
   const pixelsRef = useRef<HTMLSpanElement[]>([]);
   const DIAMETER = 22;
-  const { pixelSize } = usePixel();
 
   useEffect(() => {
     setActivePixels(Math.round((progress / 10) * 6));
   }, [progress]);
 
   return (
-    <PixeledCircleBase pixelSize={pixelSize} diameter={DIAMETER}>
+    <PixeledCircleBase diameter={DIAMETER}>
       {circlePixelsPosition.map(([positionX, positionY], i) => (
         <Pixel
           key={i}
-          pixelSize={pixelSize}
           color={color}
           positionX={positionX}
           positionY={positionY}

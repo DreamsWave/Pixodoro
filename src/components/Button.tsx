@@ -1,9 +1,7 @@
 import styled from "styled-components";
-import { usePixel } from "../features/pixel/usePixel";
 
 type ButtonBaseProps = {
   fontColor: string;
-  pixelSize: number;
   fontSize: number;
 };
 
@@ -11,7 +9,7 @@ const ButtonBase = styled.button<ButtonBaseProps>`
   position: relative;
   background: transparent;
   color: ${({ fontColor }) => fontColor};
-  padding: ${({ pixelSize }) => pixelSize}px;
+  padding: ${({ theme: { pixelSize } }) => pixelSize}px;
   border: none;
   cursor: pointer;
   font-family: PressStart2P, Inter, Avenir, Helvetica, Arial, sans-serif;
@@ -41,12 +39,10 @@ function Button({
   children,
   ...props
 }: ButtonProps) {
-  const { pixelSize } = usePixel();
   return (
     <ButtonBase
       onClick={handleClick}
       fontColor={fontColor}
-      pixelSize={pixelSize}
       fontSize={fontSize}
       {...props}
     >

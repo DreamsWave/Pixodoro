@@ -5,12 +5,11 @@ import {
   burgerIconPixelPositions,
   closeIconPixelPositions,
 } from "../constants";
-import { usePixel } from "../features/pixel/usePixel";
 
-const BurgerButtonBase = styled.div<{ pixelSize: number }>`
+const BurgerButtonBase = styled.div`
   position: absolute;
-  top: ${({ pixelSize }) => pixelSize}px;
-  right: ${({ pixelSize }) => pixelSize}px;
+  top: ${({ theme: { pixelSize } }) => pixelSize}px;
+  right: ${({ theme: { pixelSize } }) => pixelSize}px;
   z-index: 15;
   cursor: pointer;
 `;
@@ -24,20 +23,19 @@ function BurgerButton({
   onClick,
   ...props
 }: BurgerButtonProps) {
-  const { pixelSize } = usePixel();
   const theme = useTheme();
   return (
-    <BurgerButtonBase pixelSize={pixelSize} onClick={onClick} {...props}>
+    <BurgerButtonBase onClick={onClick} {...props}>
       <Button>
         {opened ? (
           <PixelIcon
             pixelPositions={closeIconPixelPositions}
-            color={theme.color?.button}
+            color={theme.colors.button}
           />
         ) : (
           <PixelIcon
             pixelPositions={burgerIconPixelPositions}
-            color={theme.color?.button}
+            color={theme.colors.button}
           />
         )}
       </Button>
