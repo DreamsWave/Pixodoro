@@ -36,7 +36,7 @@ function Controls({
   return (
     <ControlsBase pixelSize={pixelSize}>
       {running ? (
-        <Button handleClick={handleTimerToggle} noBorder>
+        <Button handleClick={handleTimerToggle}>
           <PixelIcon
             pixelPositions={pauseIconPixelPositions}
             color={
@@ -47,7 +47,7 @@ function Controls({
           />
         </Button>
       ) : (
-        <Button handleClick={handleTimerToggle} noBorder>
+        <Button handleClick={handleTimerToggle}>
           <PixelIcon
             pixelPositions={playIconPixelPositions}
             color={
@@ -59,7 +59,7 @@ function Controls({
         </Button>
       )}
       {running ? (
-        <Button handleClick={handleTimerStop} noBorder>
+        <Button handleClick={handleTimerStop}>
           <PixelIcon
             pixelPositions={stopIconPixelPositions}
             color={
@@ -70,7 +70,7 @@ function Controls({
           />
         </Button>
       ) : (
-        <Button handleClick={handleTimerEnd} noBorder>
+        <Button handleClick={handleTimerEnd}>
           <PixelIcon
             pixelPositions={skipIconPixelPositions}
             color={

@@ -84,7 +84,6 @@ function SettingsMenu({}: SettingsMenuProps) {
                   onChange={(number) =>
                     changeTotalSeconds("pomodoro", number * 60)
                   }
-                  noBorder
                 />
               </InputField>
 
@@ -97,7 +96,6 @@ function SettingsMenu({}: SettingsMenuProps) {
                   onChange={(number) =>
                     changeTotalSeconds("break", number * 60)
                   }
-                  noBorder
                 />
               </InputField>
 
@@ -108,7 +106,6 @@ function SettingsMenu({}: SettingsMenuProps) {
                   max={8}
                   defaultValue={pixelSize}
                   onChange={(num) => dispatch(setPixelSize(num))}
-                  noBorder
                 />
               </InputField>
 

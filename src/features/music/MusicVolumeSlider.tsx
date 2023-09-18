@@ -1,11 +1,6 @@
 import { styled, useTheme } from "styled-components";
 import { setVolume } from "./musicSlice";
-import {
-  useAppDispatch,
-  useAppSelector,
-  usePixelSize,
-  useTimer,
-} from "../../hooks";
+import { useAppDispatch, useAppSelector, usePixelSize } from "../../hooks";
 import { selectTimer } from "../timer/timerSlice";
 import { selectMusic } from "./musicSlice";
 
