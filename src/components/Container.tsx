@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { usePixelSize } from "../hooks";
+import { usePixel } from "../features/pixel/usePixel";
 
 const ContainerWrapper = styled.div<{ pixelSize: number }>`
   width: 100%;
@@ -12,7 +12,7 @@ type ContainerProps = {
   children: React.ReactNode;
 };
 function Container({ children }: ContainerProps) {
-  const { pixelSize } = usePixelSize();
+  const { pixelSize } = usePixel();
   return <ContainerWrapper pixelSize={pixelSize}>{children}</ContainerWrapper>;
 }
 

@@ -1,24 +1,16 @@
 import styled from "styled-components";
 import BurgerButton from "./BurgerButton";
 import { useState } from "react";
-import { useAppDispatch, useAppSelector, usePixelSize } from "../hooks";
-import {
-  setPomodoroTotalSeconds,
-  setBreakTotalSeconds,
-  selectTimer,
-  setCurrentPomodoroTotalSeconds,
-  setSecondsLeft,
-  setCurrentBreakTotalSeconds,
-} from "../features/timer/timerSlice";
-import ThemeSwitcher from "./ThemeSwitcher";
-import AudioVolumeSlider from "./AudioVolumeSlider";
+import ThemeSwitcher from "../features/theme/ThemeSwitcher";
+import AudioVolume from "../features/audio/AudioVolume";
 import InputField from "./InputField";
-import QuantityInput from "./QuantityInput";
-import { setPixelSize } from "../features/appSettings/appSettingsSlice";
 import Container from "./Container";
 import SettingsGroup from "./SettingsGroup";
 import MusicSwitcher from "../features/music/MusicSwitcher";
-import MusicVolumeSlider from "../features/music/MusicVolumeSlider";
+import PixelSize from "../features/pixel/PixelSize";
+import MusicVolume from "../features/music/MusicVolume";
+import TimerInput from "../features/timer/TimerInput";
+import { usePixel } from "../features/pixel/usePixel";
 
 const SettingsMenuOverlay = styled.div<{ pixelSize: number }>`
   background: ${({ theme }) => theme.color?.background};
@@ -35,30 +27,10 @@ const SettingsMenuOverlay = styled.div<{ pixelSize: number }>`
 type SettingsMenuProps = {};
 function SettingsMenu({}: SettingsMenuProps) {
   const [menuOpened, setMenuOpened] = useState(false);
-  const { pomodoroTotalSeconds, breakTotalSeconds, started, status } =
-    useAppSelector(selectTimer);
-  const { pixelSize } = usePixelSize();
-  const dispatch = useAppDispatch();
+  const { pixelSize } = usePixel();
 
   function toggleMenu() {
     setMenuOpened(!menuOpened);
-  }
-
-  function changeTotalSeconds(type: "pomodoro" | "break", sec: number) {
-    if (type === "pomodoro") {
-      dispatch(setPomodoroTotalSeconds(sec));
-      if (!started) {
-        dispatch(setCurrentPomodoroTotalSeconds(sec));
-      }
-    } else if (type === "break") {
-      dispatch(setBreakTotalSeconds(sec));
-      if (!started) {
-        dispatch(setCurrentBreakTotalSeconds(sec));
-      }
-    }
-    if (type === status && !started) {
-      dispatch(setSecondsLeft(sec));
-    }
   }
 
   return (
@@ -77,46 +49,27 @@ function SettingsMenu({}: SettingsMenuProps) {
             <SettingsGroup>
               <InputField noPaddingRight>
                 <span>FOCUS</span>
-                <QuantityInput
-                  min={1}
-                  max={120}
-                  defaultValue={pomodoroTotalSeconds / 60}
-                  onChange={(number) =>
-                    changeTotalSeconds("pomodoro", number * 60)
-                  }
-                />
+                <TimerInput type="pomodoro" />
               </InputField>
 
               <InputField noPaddingRight>
                 <span>BREAK</span>
-                <QuantityInput
-                  min={1}
-                  max={120}
-                  defaultValue={breakTotalSeconds / 60}
-                  onChange={(number) =>
-                    changeTotalSeconds("break", number * 60)
-                  }
-                />
+                <TimerInput type="break" />
               </InputField>
 
               <InputField noPaddingRight>
                 <span>SIZE</span>
-                <QuantityInput
-                  min={4}
-                  max={8}
-                  defaultValue={pixelSize}
-                  onChange={(num) => dispatch(setPixelSize(num))}
-                />
+                <PixelSize />
               </InputField>
 
               <InputField>
                 <span>EFFECTS</span>
-                <AudioVolumeSlider />
+                <AudioVolume />
               </InputField>
 
               <InputField>
                 <span>MUSIC</span>
-                <MusicVolumeSlider />
+                <MusicVolume />
               </InputField>
             </SettingsGroup>
           </Container>

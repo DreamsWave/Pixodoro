@@ -7,8 +7,9 @@ import {
   skipIconPixelPositions,
   stopIconPixelPositions,
 } from "../constants";
-import { useAppSelector, usePixelSize } from "../hooks";
+import { useAppSelector } from "../hooks";
 import { selectTimer } from "../features/timer/timerSlice";
+import { usePixel } from "../features/pixel/usePixel";
 
 const ControlsBase = styled.div<{ pixelSize: number }>`
   display: flex;
@@ -30,7 +31,7 @@ function Controls({
   handleTimerEnd,
   handleTimerToggle,
 }: ControlsProps) {
-  const { pixelSize } = usePixelSize();
+  const { pixelSize } = usePixel();
   const theme = useTheme();
   const { status } = useAppSelector(selectTimer);
   return (

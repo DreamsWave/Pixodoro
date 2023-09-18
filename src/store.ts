@@ -7,13 +7,17 @@ import {
 import { persistStore, persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import timerReducer from "./features/timer/timerSlice";
-import appSettingsReducer from "./features/appSettings/appSettingsSlice";
 import musicReducer from "./features/music/musicSlice";
+import audioReducer from "./features/audio/audioSlice";
+import themeReducer from "./features/theme/themeSlice";
+import pixelReducer from "./features/pixel/pixelSlice";
 
 const rootReducer = combineReducers({
   timer: timerReducer,
-  appSettings: appSettingsReducer,
   music: musicReducer,
+  theme: themeReducer,
+  pixel: pixelReducer,
+  audio: audioReducer,
 });
 
 const persistConfig = {

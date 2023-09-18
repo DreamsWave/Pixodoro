@@ -1,8 +1,8 @@
 import { styled, useTheme } from "styled-components";
-import { setVolume } from "./musicSlice";
-import { useAppDispatch, useAppSelector, usePixelSize } from "../../hooks";
+import { useAppDispatch, useAppSelector } from "../../hooks";
 import { selectTimer } from "../timer/timerSlice";
-import { selectMusic } from "./musicSlice";
+import { selectAudio, setVolume } from "./audioSlice";
+import { usePixel } from "../pixel/usePixel";
 
 const Slider = styled.input<{ pixelSize: number; thumbColor?: string }>`
   -webkit-appearance: none;
@@ -33,9 +33,9 @@ const Slider = styled.input<{ pixelSize: number; thumbColor?: string }>`
   }
 `;
 
-function MusicVolumeSlider() {
-  const { pixelSize } = usePixelSize();
-  const { volume } = useAppSelector(selectMusic);
+function AudioVolume() {
+  const { pixelSize } = usePixel();
+  const { volume } = useAppSelector(selectAudio);
   const dispatch = useAppDispatch();
   const styledTheme = useTheme();
   const { status } = useAppSelector(selectTimer);
@@ -57,4 +57,4 @@ function MusicVolumeSlider() {
   );
 }
 
-export default MusicVolumeSlider;
+export default AudioVolume;

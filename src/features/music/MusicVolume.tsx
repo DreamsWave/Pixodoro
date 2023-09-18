@@ -1,10 +1,9 @@
 import { styled, useTheme } from "styled-components";
-import {
-  selectAppSettings,
-  setVolume,
-} from "../features/appSettings/appSettingsSlice";
-import { useAppDispatch, useAppSelector, usePixelSize } from "../hooks";
-import { selectTimer } from "../features/timer/timerSlice";
+import { setVolume } from "./musicSlice";
+import { useAppDispatch, useAppSelector } from "../../hooks";
+import { selectTimer } from "../timer/timerSlice";
+import { selectMusic } from "./musicSlice";
+import { usePixel } from "../pixel/usePixel";
 
 const Slider = styled.input<{ pixelSize: number; thumbColor?: string }>`
   -webkit-appearance: none;
@@ -35,9 +34,9 @@ const Slider = styled.input<{ pixelSize: number; thumbColor?: string }>`
   }
 `;
 
-function AudioVolumeSlider() {
-  const { pixelSize } = usePixelSize();
-  const { audioVolume } = useAppSelector(selectAppSettings);
+function MusicVolume() {
+  const { pixelSize } = usePixel();
+  const { volume } = useAppSelector(selectMusic);
   const dispatch = useAppDispatch();
   const styledTheme = useTheme();
   const { status } = useAppSelector(selectTimer);
@@ -48,7 +47,7 @@ function AudioVolumeSlider() {
       type="range"
       min="0"
       max="100"
-      value={audioVolume * 100}
+      value={volume * 100}
       onChange={(e) => dispatch(setVolume(+e.target.value / 100))}
       thumbColor={
         status === "pomodoro"
@@ -59,4 +58,4 @@ function AudioVolumeSlider() {
   );
 }
 
-export default AudioVolumeSlider;
+export default MusicVolume;

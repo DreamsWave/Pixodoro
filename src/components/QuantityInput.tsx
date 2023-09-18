@@ -2,9 +2,10 @@ import styled, { useTheme } from "styled-components";
 import { minusIconPixelPositions, plusIconPixelPositions } from "../constants";
 import Button from "./Button";
 import PixelIcon from "./PixelIcon";
-import { useAppSelector, usePixelSize } from "../hooks";
+import { useAppSelector } from "../hooks";
 import { useEffect, useState } from "react";
 import { selectTimer } from "../features/timer/timerSlice";
+import { usePixel } from "../features/pixel/usePixel";
 
 const QuantityInputBase = styled.div`
   display: flex;
@@ -47,7 +48,7 @@ function QuantityInput({
   const [value, setValue] = useState(defaultValue);
   const [atMininum, setAtMininum] = useState(false);
   const [atMaximum, setAtMaximum] = useState(false);
-  const { pixelSize } = usePixelSize();
+  const { pixelSize } = usePixel();
   const theme = useTheme();
   const { status } = useAppSelector(selectTimer);
 
