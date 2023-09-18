@@ -1,16 +1,13 @@
 import { useTheme } from "styled-components";
-import { moonIconPixelPositions, sunIconPixelPositions } from "../constants";
-import {
-  selectAppSettings,
-  setTheme,
-} from "../features/appSettings/appSettingsSlice";
-import { useAppDispatch, useAppSelector } from "../hooks";
-import Button from "./Button";
-import PixelIcon from "./PixelIcon";
-import { selectTimer } from "../features/timer/timerSlice";
+import { moonIconPixelPositions, sunIconPixelPositions } from "../../constants";
+import { useAppDispatch, useAppSelector } from "../../hooks";
+import Button from "../../components/Button";
+import PixelIcon from "../../components/PixelIcon";
+import { selectTimer } from "../timer/timerSlice";
+import { selectTheme, setTheme } from "./themeSlice";
 
 function ThemeSwitcher() {
-  const { theme } = useAppSelector(selectAppSettings);
+  const { theme } = useAppSelector(selectTheme);
   const dispatch = useAppDispatch();
   const styledTheme = useTheme();
   const { status } = useAppSelector(selectTimer);

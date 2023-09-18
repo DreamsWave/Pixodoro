@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { usePixelSize } from "../hooks";
+import { usePixel } from "../features/pixel/usePixel";
 
 type ButtonBaseProps = {
   fontColor: string;
@@ -41,7 +41,7 @@ function Button({
   children,
   ...props
 }: ButtonProps) {
-  const { pixelSize } = usePixelSize();
+  const { pixelSize } = usePixel();
   return (
     <ButtonBase
       onClick={handleClick}

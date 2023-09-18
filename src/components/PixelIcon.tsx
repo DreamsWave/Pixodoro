@@ -1,11 +1,11 @@
-import { usePixelSize } from "../hooks";
+import { usePixel } from "../features/pixel/usePixel";
 
 type PixelIconProps = {
   color?: string;
   pixelPositions: number[][];
 };
 function PixelIcon({ color = "#000", pixelPositions }: PixelIconProps) {
-  const { pixelSize } = usePixelSize();
+  const { pixelSize } = usePixel();
   return (
     <svg
       version="1.1"

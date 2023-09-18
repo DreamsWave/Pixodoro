@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { usePixelSize } from "../hooks";
+import { usePixel } from "../features/pixel/usePixel";
 
 const InputFieldBase = styled.div<{
   pixelSize: number;
@@ -18,7 +18,7 @@ const InputFieldBase = styled.div<{
 type InputFieldProps = { children: React.ReactNode; noPaddingRight?: boolean };
 
 function InputField({ children, noPaddingRight = false }: InputFieldProps) {
-  const { pixelSize } = usePixelSize();
+  const { pixelSize } = usePixel();
 
   return (
     <InputFieldBase pixelSize={pixelSize} noPaddingRight={noPaddingRight}>

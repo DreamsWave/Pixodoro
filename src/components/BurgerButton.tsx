@@ -5,7 +5,7 @@ import {
   burgerIconPixelPositions,
   closeIconPixelPositions,
 } from "../constants";
-import { usePixelSize } from "../hooks";
+import { usePixel } from "../features/pixel/usePixel";
 
 const BurgerButtonBase = styled.div<{ pixelSize: number }>`
   position: absolute;
@@ -24,7 +24,7 @@ function BurgerButton({
   onClick,
   ...props
 }: BurgerButtonProps) {
-  const { pixelSize } = usePixelSize();
+  const { pixelSize } = usePixel();
   const theme = useTheme();
   return (
     <BurgerButtonBase pixelSize={pixelSize} onClick={onClick} {...props}>

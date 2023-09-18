@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { usePixelSize } from "../hooks";
+import { usePixel } from "../features/pixel/usePixel";
 
 const SettingsGroupBase = styled.div<{
   pixelSize: number;
@@ -19,7 +19,7 @@ function SettingsGroup({
   children,
   direction = "vertical",
 }: SettingsGroupProps) {
-  const { pixelSize } = usePixelSize();
+  const { pixelSize } = usePixel();
   return (
     <SettingsGroupBase pixelSize={pixelSize} direction={direction}>
       {children}

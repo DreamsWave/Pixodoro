@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import styled, { useTheme } from "styled-components";
-import { useAppSelector, usePixelSize } from "../hooks";
+import { useAppSelector } from "../hooks";
 import { selectTimer } from "../features/timer/timerSlice";
+import { usePixel } from "../features/pixel/usePixel";
 
 const Colon = styled.div<{ pixelSize: number; color?: string }>`
   display: flex;
@@ -44,7 +45,7 @@ function Time() {
   const [secs, setSecs] = useState<string>("00");
   const { secondsLeft, status } = useAppSelector(selectTimer);
   const theme = useTheme();
-  const { pixelSize } = usePixelSize();
+  const { pixelSize } = usePixel();
 
   useEffect(() => {
     const m = Math.floor(secondsLeft / 60);
