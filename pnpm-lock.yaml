@@ -25,6 +25,9 @@ dependencies:
   styled-components:
     specifier: ^6.0.7
     version: 6.0.7(react-dom@18.2.0)(react@18.2.0)
+  tauri-plugin-positioner-api:
+    specifier: ^0.2.7
+    version: 0.2.7
 
 devDependencies:
   '@tauri-apps/cli':
@@ -2659,6 +2662,12 @@ packages:
   /supports-preserve-symlinks-flag@1.0.0:
     resolution: {integrity: sha512-ot0WnXS9fgdkgIcePe6RHNk1WA8+muPa6cSjeR3V8K27q9BB1rTE3R1p7Hv0z1ZyAc8s6Vvv8DIyWf681MAt0w==}
     engines: {node: '>= 0.4'}
+    dev: false
+
+  /tauri-plugin-positioner-api@0.2.7:
+    resolution: {integrity: sha512-jwqRHo59UU3aJbffEFkWVhBorjQg1WNeDa4W4eWVnaTqLals+/fqgHdNwTGzG1+LLdaJSS2FUy4XSwEDAWvERQ==}
+    dependencies:
+      '@tauri-apps/api': 1.4.0
     dev: false
 
   /throttle-debounce@3.0.1:
