@@ -8,7 +8,7 @@
   },
   "package": {
     "productName": "pixodoro",
-    "version": "0.0.0"
+    "version": "1.0.0"
   },
   "tauri": {
     "allowlist": {
@@ -33,13 +33,19 @@
     "security": {
       "csp": null
     },
+    "systemTray": {
+      "iconPath": "icons/tray/favicon-default.png",
+      "iconAsTemplate": true,
+      "title": "pixodoro"
+    },
     "windows": [
       {
         "fullscreen": false,
         "resizable": true,
         "title": "pixodoro",
         "width": 320,
-        "height": 320
+        "height": 320,
+        "center": true
       }
     ]
   }
