@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../../store";
 
-type PomodoroStatus = "pomodoro" | "break";
+export type PomodoroStatus = "pomodoro" | "break";
 interface TimerState {
   pomodoroTotalSeconds: number;
   breakTotalSeconds: number;

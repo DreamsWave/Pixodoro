@@ -1,8 +1,5 @@
 import styled, { useTheme } from "styled-components";
-import PixelCircle from "../../components/PixelCircle";
-import { useAppDispatch, useAppSelector } from "../../hooks";
-import Time from "../../components/Time";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import {
   selectTimer,
   setProgress,
@@ -13,8 +10,12 @@ import {
   setSecondsLeft,
 } from "./timerSlice";
 import Controls from "../../components/Controls";
+import PixelCircle from "../../components/PixelCircle";
+import { useAppDispatch, useAppSelector } from "../../hooks";
+import Time from "../../components/Time";
 import { useAudio } from "../audio/useAudio";
 import { useTimer } from "./useTimer";
+import { invoke } from "@tauri-apps/api";
 
 const Clock = styled.div`
   position: relative;
@@ -47,6 +48,7 @@ function Timer({}: TimerProps) {
   const { seconds, start, pause, running, stop } = useTimer();
   const { play } = useAudio();
   const theme = useTheme();
+  const [iconProgress, setIconProgress] = useState(0);
 
   useEffect(() => {
     if (status === "pomodoro") {
@@ -66,6 +68,43 @@ function Timer({}: TimerProps) {
       }
     }
   }, [seconds]);
+
+  useEffect(() => {
+    if (progress === 0) {
+      setIconProgress(0);
+    }
+    if (progress > 0) {
+      setIconProgress(1);
+    }
+    if (progress >= 12) {
+      setIconProgress(12);
+    }
+    if (progress >= 25) {
+      setIconProgress(25);
+    }
+    if (progress >= 37) {
+      setIconProgress(37);
+    }
+    if (progress >= 50) {
+      setIconProgress(50);
+    }
+    if (progress >= 62) {
+      setIconProgress(62);
+    }
+    if (progress >= 75) {
+      setIconProgress(75);
+    }
+    if (progress >= 87) {
+      setIconProgress(87);
+    }
+    if (progress === 100) {
+      setIconProgress(100);
+    }
+  }, [status, progress]);
+
+  useEffect(() => {
+    invoke("update_tray_icon", { status, progress: iconProgress });
+  }, [iconProgress]);
 
   function timerEnd() {
     stop();
