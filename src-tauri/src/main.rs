@@ -6,33 +6,77 @@ use tauri_plugin_positioner::{Position, WindowExt};
 
 use std::env;
 
-// tauri command that updates the tray icon
+// tauri command that updates the tray icon and updates the tooltip
 #[tauri::command]
-async fn update_tray_icon(app_handle: tauri::AppHandle, status: String, progress: i32) {
-    let mut image_path = format!(
-        "icons/tray/{status}/favicon-{status}-{progress}.png",
-        status = status,
-        progress = progress
-    );
-    if progress == 0 {
-        image_path = format!("icons/tray/favicon-default.png");
+async fn update_tray_icon(app_handle: tauri::AppHandle, status: String, progress: f32) {
+    let progress_rounded = progress.round() as i32;
+
+    let image_path = match progress_rounded {
+        0 => format!("icons/tray/favicon-default.png"),
+        1..=11 => format!(
+            "icons/tray/{status}/favicon-{status}-1.png",
+            status = status
+        ),
+        12..=24 => format!(
+            "icons/tray/{status}/favicon-{status}-12.png",
+            status = status
+        ),
+        25..=36 => format!(
+            "icons/tray/{status}/favicon-{status}-25.png",
+            status = status
+        ),
+        37..=49 => format!(
+            "icons/tray/{status}/favicon-{status}-37.png",
+            status = status
+        ),
+        50..=61 => format!(
+            "icons/tray/{status}/favicon-{status}-50.png",
+            status = status
+        ),
+        62..=74 => format!(
+            "icons/tray/{status}/favicon-{status}-62.png",
+            status = status
+        ),
+        75..=86 => format!(
+            "icons/tray/{status}/favicon-{status}-75.png",
+            status = status
+        ),
+        87..=99 => format!(
+            "icons/tray/{status}/favicon-{status}-87.png",
+            status = status
+        ),
+        100 => format!("icons/tray/favicon-default.png"),
+        _ => format!("icons/tray/favicon-default.png"),
+    };
+
+    // Update icon
+    if image_path != env::var("ICON_PATH").unwrap() {
+        app_handle
+            .tray_handle()
+            .set_icon(tauri::Icon::File(
+                app_handle
+                    .path_resolver()
+                    .resolve_resource(&image_path)
+                    .unwrap(),
+            ))
+            .unwrap();
+        env::set_var("ICON_PATH", &image_path);
     }
-    app_handle
-        .tray_handle()
-        .set_icon(tauri::Icon::File(
-            app_handle
-                .path_resolver()
-                .resolve_resource(image_path)
-                .unwrap(),
-        ))
-        .unwrap();
-    let _ = app_handle
-        .tray_handle()
-        .set_tooltip(&(progress.to_string() + "%").to_owned());
+
+    // Update tooltip
+    let status_name = if status == "pomodoro" {
+        "Focus"
+    } else {
+        "Break"
+    };
+    let tooltip =
+        &(status_name.to_string() + " - " + &(progress_rounded.to_string() + "%")).to_owned();
+    let _ = app_handle.tray_handle().set_tooltip(&tooltip);
 }
 
 fn main() {
     env::set_var("RUST_BACKTRACE", "1");
+    env::set_var("ICON_PATH", format!("icons/tray/favicon-default.png"));
     let quit = CustomMenuItem::new("quit".to_string(), "Quit");
     let system_tray_menu = SystemTrayMenu::new().add_item(quit);
     let system_tray = SystemTray::new().with_menu(system_tray_menu);
@@ -62,7 +106,6 @@ fn main() {
                     ..
                 } => {
                     let window = app.get_window("main").unwrap();
-                    // use TrayCenter as initial window position
                     let _ = window.move_window(Position::TrayCenter);
                     if window.is_visible().unwrap() {
                         window.hide().unwrap();

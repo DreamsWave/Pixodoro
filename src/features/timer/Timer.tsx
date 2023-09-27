@@ -1,5 +1,5 @@
 import styled, { useTheme } from "styled-components";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import {
   selectTimer,
   setProgress,
@@ -48,7 +48,6 @@ function Timer({}: TimerProps) {
   const { seconds, start, pause, running, stop } = useTimer();
   const { play } = useAudio();
   const theme = useTheme();
-  const [iconProgress, setIconProgress] = useState(0);
 
   useEffect(() => {
     if (status === "pomodoro") {
@@ -70,41 +69,8 @@ function Timer({}: TimerProps) {
   }, [seconds]);
 
   useEffect(() => {
-    if (progress === 0) {
-      setIconProgress(0);
-    }
-    if (progress > 0) {
-      setIconProgress(1);
-    }
-    if (progress >= 12) {
-      setIconProgress(12);
-    }
-    if (progress >= 25) {
-      setIconProgress(25);
-    }
-    if (progress >= 37) {
-      setIconProgress(37);
-    }
-    if (progress >= 50) {
-      setIconProgress(50);
-    }
-    if (progress >= 62) {
-      setIconProgress(62);
-    }
-    if (progress >= 75) {
-      setIconProgress(75);
-    }
-    if (progress >= 87) {
-      setIconProgress(87);
-    }
-    if (progress === 100) {
-      setIconProgress(100);
-    }
+    invoke("update_tray_icon", { status, progress });
   }, [status, progress]);
-
-  useEffect(() => {
-    invoke("update_tray_icon", { status, progress: iconProgress });
-  }, [iconProgress]);
 
   function timerEnd() {
     stop();
