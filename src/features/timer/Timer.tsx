@@ -43,6 +43,7 @@ function Timer({}: TimerProps) {
     status,
     progress,
     started,
+    autoMode,
   } = useAppSelector(selectTimer);
   const dispatch = useAppDispatch();
   const { seconds, start, pause, running, stop } = useTimer();
@@ -56,6 +57,9 @@ function Timer({}: TimerProps) {
         dispatch(setSecondsLeft(currentPomodoroTotalSeconds - seconds));
       } else {
         timerEnd();
+        if (autoMode) {
+          timerStart();
+        }
       }
     }
     if (status === "break") {
@@ -64,6 +68,9 @@ function Timer({}: TimerProps) {
         dispatch(setSecondsLeft(currentBreakTotalSeconds - seconds));
       } else {
         timerEnd();
+        if (autoMode) {
+          timerStart();
+        }
       }
     }
   }, [seconds]);
@@ -102,13 +109,22 @@ function Timer({}: TimerProps) {
 
   function timerToggle() {
     if (running) {
-      pause();
+      timerPause();
     } else {
-      start();
-      if (!started) {
-        dispatch(setStarted(true));
-      }
+      timerStart();
     }
+  }
+
+  function timerStart() {
+    start();
+    if (!started) {
+      dispatch(setStarted(true));
+    }
+    play("timer-start");
+  }
+
+  function timerPause() {
+    pause();
     play("timer-start");
   }
 

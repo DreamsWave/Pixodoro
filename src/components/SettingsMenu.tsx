@@ -10,6 +10,7 @@ import MusicSwitcher from "../features/music/MusicSwitcher";
 import PixelSize from "../features/theme/PixelSize";
 import MusicVolume from "../features/music/MusicVolume";
 import TimerInput from "../features/timer/TimerInput";
+import AutoModeSwitcher from "../features/timer/AutoModeSwitcher";
 
 const SettingsMenuOverlay = styled.div`
   background: ${({ theme }) => theme.colors.background};
@@ -42,6 +43,7 @@ function SettingsMenu({}: SettingsMenuProps) {
             <SettingsGroup direction="horizontal">
               <ThemeSwitcher />
               <MusicSwitcher />
+              <AutoModeSwitcher />
             </SettingsGroup>
 
             <SettingsGroup>
