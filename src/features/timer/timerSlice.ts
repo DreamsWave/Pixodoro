@@ -11,6 +11,7 @@ interface TimerState {
   progress: number;
   started: boolean;
   secondsLeft: number;
+  autoMode: boolean;
 }
 
 const initialState: TimerState = {
@@ -22,6 +23,7 @@ const initialState: TimerState = {
   progress: 0,
   started: false,
   secondsLeft: 0,
+  autoMode: true,
 };
 
 export const timerSlice = createSlice({
@@ -52,6 +54,9 @@ export const timerSlice = createSlice({
     setSecondsLeft: (state, action: PayloadAction<number>) => {
       state.secondsLeft = action.payload;
     },
+    setAutoMode: (state, action: PayloadAction<boolean>) => {
+      state.autoMode = action.payload;
+    },
   },
 });
 
@@ -64,6 +69,7 @@ export const {
   setProgress,
   setStarted,
   setSecondsLeft,
+  setAutoMode,
 } = timerSlice.actions;
 
 export const selectTimer = (state: RootState) => state.timer;
