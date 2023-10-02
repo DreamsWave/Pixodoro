@@ -1,4 +1,4 @@
-## Pomodoro desktop application
+## Pomodoro desktop tray app
 
 The timer is designed to help users implement the [Pomodoro Technique](https://en.wikipedia.org/wiki/Pomodoro_Technique) and improve their productivity.
 
