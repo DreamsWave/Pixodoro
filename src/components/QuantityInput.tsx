@@ -11,10 +11,10 @@ const QuantityInputBase = styled.div`
 `;
 
 const QuantityInputElement = styled.input<{
-  numberLength: number;
+  $numberLength: number;
 }>`
-  max-width: ${({ theme: { pixelSize }, numberLength }) =>
-    pixelSize * 4 * numberLength}px;
+  max-width: ${({ theme: { pixelSize }, $numberLength }) =>
+    pixelSize * 4 * $numberLength}px;
   min-width: ${({ theme: { pixelSize } }) => pixelSize * 4 * 2}px;
   background: transparent;
   border: none;
@@ -108,8 +108,11 @@ function QuantityInput({
         min={min}
         max={max}
         value={value}
+        name="quantity"
         onChange={(e) => inputChange(+e.target.value)}
-        numberLength={value.toString().length < 2 ? 2 : value.toString().length}
+        $numberLength={
+          value.toString().length < 2 ? 2 : value.toString().length
+        }
       />
       <Button borderColor={theme.colors.border} handleClick={increaseValue}>
         <PixelIcon

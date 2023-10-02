@@ -1,14 +1,14 @@
 import styled from "styled-components";
 
 type ButtonBaseProps = {
-  fontColor: string;
+  $fontColor: string;
   fontSize: number;
 };
 
 const ButtonBase = styled.button<ButtonBaseProps>`
   position: relative;
   background: transparent;
-  color: ${({ fontColor }) => fontColor};
+  color: ${({ $fontColor }) => $fontColor};
   padding: ${({ theme: { pixelSize } }) => pixelSize}px;
   border: none;
   cursor: pointer;
@@ -42,7 +42,7 @@ function Button({
   return (
     <ButtonBase
       onClick={handleClick}
-      fontColor={fontColor}
+      $fontColor={fontColor}
       fontSize={fontSize}
       {...props}
     >

@@ -13,7 +13,7 @@ function PixelIcon({ color = "#000", pixelPositions }: PixelIconProps) {
       width={Math.max(...pixelPositions.map(([x]) => x + 1)) * pixelSize}
       height={Math.max(...pixelPositions.map(([, y]) => y + 1)) * pixelSize}
       xmlns="http://www.w3.org/2000/svg"
-      shape-rendering="crispEdges"
+      shapeRendering="crispEdges"
     >
       {pixelPositions.map(([x, y], i) => (
         <rect

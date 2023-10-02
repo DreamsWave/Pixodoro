@@ -1,34 +1,46 @@
 import { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { circlePixelsPosition } from "../constants";
+import { DefaultTheme } from "styled-components/dist/types";
 
 type PixelProps = {
-  color: string;
-  positionX: number;
-  positionY: number;
-  active?: boolean;
+  color?: string;
+  $top?: number;
+  $left?: number;
+  $active?: boolean;
+  theme: DefaultTheme;
 };
-const Pixel = styled.span<PixelProps>`
+const Pixel = styled.span.attrs(
+  ({
+    theme,
+    $active = false,
+    $top = 0,
+    $left = 0,
+    color = "#333",
+  }: PixelProps) => ({
+    style: {
+      background: $active ? color : theme.colors.border,
+      top: theme.pixelSize * $top,
+      left: theme.pixelSize * $left,
+    },
+  })
+)`
   display: flex;
-  width: ${({ theme: { pixelSize } }) => pixelSize}px;
-  height: ${({ theme: { pixelSize } }) => pixelSize}px;
-  background-color: ${({ color, active, theme }) =>
-    active ? color : theme.colors.border};
   position: absolute;
-  top: ${({ theme: { pixelSize }, positionY }) => pixelSize * positionY}px;
-  left: ${({ theme: { pixelSize }, positionX }) => pixelSize * positionX}px;
+  width: ${({ theme }) => theme.pixelSize}px;
+  height: ${({ theme }) => theme.pixelSize}px;
 `;
 
 type PixeledCircleBaseProps = {
-  diameter: number;
+  $diameter: number;
 };
 const PixeledCircleBase = styled.div<PixeledCircleBaseProps>`
   position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
-  width: ${({ diameter, theme: { pixelSize } }) => diameter * pixelSize}px;
-  height: ${({ diameter, theme: { pixelSize } }) => diameter * pixelSize}px;
+  width: ${({ $diameter, theme: { pixelSize } }) => $diameter * pixelSize}px;
+  height: ${({ $diameter, theme: { pixelSize } }) => $diameter * pixelSize}px;
   margin: 0 auto;
 `;
 
@@ -46,14 +58,15 @@ function PixelCircle({ progress = 0, color = "red" }: PixeledCircleProps) {
   }, [progress]);
 
   return (
-    <PixeledCircleBase diameter={DIAMETER}>
+    <PixeledCircleBase $diameter={DIAMETER}>
       {circlePixelsPosition.map(([positionX, positionY], i) => (
         <Pixel
           key={i}
           color={color}
-          positionX={positionX}
-          positionY={positionY}
-          active={i < activePixels}
+          // @ts-ignore
+          $top={positionY}
+          $left={positionX}
+          $active={i < activePixels}
           ref={(el) => (pixelsRef.current[i] = el!)}
         />
       ))}
