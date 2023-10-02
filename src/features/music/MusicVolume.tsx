@@ -4,7 +4,7 @@ import { useAppDispatch, useAppSelector } from "../../hooks";
 import { selectTimer } from "../timer/timerSlice";
 import { selectMusic } from "./musicSlice";
 
-const Slider = styled.input<{ thumbColor?: string }>`
+const Slider = styled.input<{ $thumbColor?: string }>`
   -webkit-appearance: none;
   width: 100%;
   max-width: ${({ theme: { pixelSize } }) => pixelSize * 16}px;
@@ -21,14 +21,14 @@ const Slider = styled.input<{ thumbColor?: string }>`
     appearance: none;
     width: ${({ theme: { pixelSize } }) => pixelSize * 2}px;
     height: ${({ theme: { pixelSize } }) => pixelSize * 2}px;
-    background: ${({ thumbColor }) => thumbColor ?? "lightyellow"};
+    background: ${({ $thumbColor }) => $thumbColor ?? "lightyellow"};
     cursor: pointer;
   }
 
   &::-moz-range-thumb {
     width: ${({ theme: { pixelSize } }) => pixelSize * 2}px;
     height: ${({ theme: { pixelSize } }) => pixelSize * 2}px;
-    background: ${({ thumbColor }) => thumbColor ?? "lightyellow"};
+    background: ${({ $thumbColor }) => $thumbColor ?? "lightyellow"};
     cursor: pointer;
   }
 `;
@@ -46,7 +46,7 @@ function MusicVolume() {
       max="100"
       value={volume * 100}
       onChange={(e) => dispatch(setVolume(+e.target.value / 100))}
-      thumbColor={
+      $thumbColor={
         status === "pomodoro"
           ? styledTheme.colors.primary
           : styledTheme.colors.secondary
