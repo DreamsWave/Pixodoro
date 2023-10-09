@@ -23,12 +23,13 @@ type ControlsProps = {
   handleTimerStop: () => void;
   handleTimerEnd: () => void;
   handleTimerToggle: () => void;
+  handleTimerSwitch: () => void;
 };
 function Controls({
   running = false,
   handleTimerStop,
-  handleTimerEnd,
   handleTimerToggle,
+  handleTimerSwitch,
 }: ControlsProps) {
   const theme = useTheme();
   const { status } = useAppSelector(selectTimer);
@@ -69,7 +70,7 @@ function Controls({
           />
         </Button>
       ) : (
-        <Button handleClick={handleTimerEnd}>
+        <Button handleClick={handleTimerSwitch}>
           <PixelIcon
             pixelPositions={skipIconPixelPositions}
             color={

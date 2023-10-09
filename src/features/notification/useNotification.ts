@@ -1,30 +1,21 @@
-import { useEffect } from "react";
 import { useAppSelector } from "../../hooks";
-import { selectNotification, setPermissionGranted } from "./notificationSlice";
+import { selectNotification } from "./notificationSlice";
 import {
   requestPermission,
   sendNotification as sendNotificationAPI,
+  Options,
 } from "@tauri-apps/api/notification";
 
 export default function useNotification() {
-  const { permissionGranted } = useAppSelector(selectNotification);
+  const { enabled } = useAppSelector(selectNotification);
 
-  const sendNotification = async (
-    options:
-      | {
-          title: string;
-          body?: string;
-          icon?: string;
-        }
-      | string
-  ) => {
-    let granted = permissionGranted;
-    if (!permissionGranted) {
+  const sendNotification = async (options: Options | string) => {
+    let granted = false;
+    if (!granted) {
       const permission = await requestPermission();
       granted = permission === "granted";
-      setPermissionGranted(granted);
     }
-    if (granted) {
+    if (granted && enabled) {
       sendNotificationAPI(options);
     }
   };

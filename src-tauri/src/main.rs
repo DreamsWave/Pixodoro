@@ -45,7 +45,10 @@ async fn update_tray_icon(app_handle: tauri::AppHandle, status: String, progress
             "icons/tray/{status}/favicon-{status}-87.png",
             status = status
         ),
-        100 => format!("icons/tray/favicon-default.png"),
+        100 => format!(
+            "icons/tray/{status}/favicon-{status}-100.png",
+            status = status
+        ),
         _ => format!("icons/tray/favicon-default.png"),
     };
 

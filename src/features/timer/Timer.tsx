@@ -55,23 +55,29 @@ function Timer({}: TimerProps) {
   useEffect(() => {
     if (status === "pomodoro") {
       if (seconds <= currentPomodoroTotalSeconds) {
-        dispatch(setProgress((seconds / currentPomodoroTotalSeconds) * 100));
-        dispatch(setSecondsLeft(currentPomodoroTotalSeconds - seconds));
+        timerUpdate();
       } else {
-        timerEnd();
         if (autoMode) {
+          timerSwitch();
           timerStart();
+          sendNotification("Focus finished, starting Break");
+        } else {
+          timerEnd();
+          sendNotification("Focus finished");
         }
       }
     }
     if (status === "break") {
       if (seconds <= currentBreakTotalSeconds) {
-        dispatch(setProgress((seconds / currentBreakTotalSeconds) * 100));
-        dispatch(setSecondsLeft(currentBreakTotalSeconds - seconds));
+        timerUpdate();
       } else {
-        timerEnd();
         if (autoMode) {
+          timerSwitch();
           timerStart();
+          sendNotification("Break finished, starting Focus");
+        } else {
+          timerEnd();
+          sendNotification("Break finished");
         }
       }
     }
@@ -81,34 +87,60 @@ function Timer({}: TimerProps) {
     invoke("update_tray_icon", { status, progress });
   }, [status, progress]);
 
-  function timerEnd() {
-    stop();
-    setProgress(0);
-    sendNotification(`${status === "pomodoro" ? "Focus" : "Break"} ended.`);
+  function timerUpdate() {
     if (status === "pomodoro") {
-      dispatch(setStatus("break"));
-      play("pomodoro-end");
-      dispatch(setSecondsLeft(breakTotalSeconds - seconds));
-    } else if (status === "break") {
-      dispatch(setStatus("pomodoro"));
-      play("break-end");
-      dispatch(setSecondsLeft(pomodoroTotalSeconds - seconds));
+      dispatch(setProgress((seconds / currentPomodoroTotalSeconds) * 100));
+      dispatch(setSecondsLeft(currentPomodoroTotalSeconds - seconds));
+    } else {
+      dispatch(setProgress((seconds / currentBreakTotalSeconds) * 100));
+      dispatch(setSecondsLeft(currentBreakTotalSeconds - seconds));
     }
-    dispatch(setStarted(false));
   }
 
-  function timerStop() {
-    stop();
-    setProgress(0);
-    sendNotification(`${status === "pomodoro" ? "Focus" : "Break"} stopped.`);
-    if (status === "pomodoro") {
-      play("pomodoro-end");
-    } else if (status === "break") {
-      play("break-end");
+  function timerEnd(
+    {
+      playSound = true,
+      notification,
+    }: { playSound?: boolean; notification?: string } = { playSound: true }
+  ) {
+    timerPause({ playSound: false });
+
+    if (notification) {
+      sendNotification(notification);
     }
+
+    if (playSound) {
+      if (status === "pomodoro") {
+        play("pomodoro-end");
+      } else {
+        play("break-end");
+      }
+    }
+  }
+
+  function timerStop(
+    {
+      playSound = true,
+      notification,
+    }: { playSound?: boolean; notification?: string } = {
+      playSound: true,
+    }
+  ) {
+    stop();
+    timerReset();
     dispatch(setStarted(false));
-    dispatch(setCurrentPomodoroTotalSeconds(pomodoroTotalSeconds));
-    dispatch(setCurrentBreakTotalSeconds(breakTotalSeconds));
+
+    if (notification) {
+      sendNotification(notification);
+    }
+
+    if (playSound) {
+      if (status === "pomodoro") {
+        play("pomodoro-end");
+      } else if (status === "break") {
+        play("break-end");
+      }
+    }
   }
 
   function timerToggle() {
@@ -119,18 +151,55 @@ function Timer({}: TimerProps) {
     }
   }
 
-  function timerStart() {
+  function timerStart(
+    {
+      playSound = true,
+      notification,
+    }: { playSound?: boolean; notification?: string } = {
+      playSound: true,
+    }
+  ) {
     start();
-    sendNotification(`${status === "pomodoro" ? "Focus" : "Break"} started.`);
     if (!started) {
       dispatch(setStarted(true));
     }
-    play("timer-start");
+    if (notification) {
+      sendNotification(notification);
+    }
+    if (playSound) {
+      play("timer-start");
+    }
   }
 
-  function timerPause() {
+  function timerPause(
+    { playSound = true }: { playSound?: boolean } = { playSound: true }
+  ) {
     pause();
-    play("timer-start");
+    if (playSound) {
+      play("timer-start");
+    }
+  }
+
+  function timerSwitch() {
+    if (status === "pomodoro") {
+      dispatch(setStatus("break"));
+    } else if (status === "break") {
+      dispatch(setStatus("pomodoro"));
+    }
+
+    timerStop({ playSound: false });
+
+    if (status === "pomodoro") {
+      dispatch(setSecondsLeft(breakTotalSeconds - seconds));
+    } else if (status === "break") {
+      dispatch(setSecondsLeft(pomodoroTotalSeconds - seconds));
+    }
+  }
+
+  function timerReset() {
+    dispatch(setProgress(0));
+    dispatch(setCurrentPomodoroTotalSeconds(pomodoroTotalSeconds));
+    dispatch(setCurrentBreakTotalSeconds(breakTotalSeconds));
   }
 
   return (
@@ -151,6 +220,7 @@ function Timer({}: TimerProps) {
         handleTimerStop={timerStop}
         handleTimerEnd={timerEnd}
         handleTimerToggle={timerToggle}
+        handleTimerSwitch={timerSwitch}
       />
     </TimerBase>
   );
