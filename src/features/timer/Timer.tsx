@@ -16,6 +16,7 @@ import Time from "../../components/Time";
 import { useAudio } from "../audio/useAudio";
 import { useTimer } from "./useTimer";
 import { invoke } from "@tauri-apps/api";
+import useNotification from "../notification/useNotification";
 
 const Clock = styled.div`
   position: relative;
@@ -49,6 +50,7 @@ function Timer({}: TimerProps) {
   const { seconds, start, pause, running, stop } = useTimer();
   const { play } = useAudio();
   const theme = useTheme();
+  const { sendNotification } = useNotification();
 
   useEffect(() => {
     if (status === "pomodoro") {
@@ -82,6 +84,7 @@ function Timer({}: TimerProps) {
   function timerEnd() {
     stop();
     setProgress(0);
+    sendNotification(`${status === "pomodoro" ? "Focus" : "Break"} ended.`);
     if (status === "pomodoro") {
       dispatch(setStatus("break"));
       play("pomodoro-end");
@@ -97,6 +100,7 @@ function Timer({}: TimerProps) {
   function timerStop() {
     stop();
     setProgress(0);
+    sendNotification(`${status === "pomodoro" ? "Focus" : "Break"} stopped.`);
     if (status === "pomodoro") {
       play("pomodoro-end");
     } else if (status === "break") {
@@ -117,6 +121,7 @@ function Timer({}: TimerProps) {
 
   function timerStart() {
     start();
+    sendNotification(`${status === "pomodoro" ? "Focus" : "Break"} started.`);
     if (!started) {
       dispatch(setStarted(true));
     }

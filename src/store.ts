@@ -10,12 +10,14 @@ import timerReducer from "./features/timer/timerSlice";
 import musicReducer from "./features/music/musicSlice";
 import audioReducer from "./features/audio/audioSlice";
 import themeReducer from "./features/theme/themeSlice";
+import notificationReducer from "./features/notification/notificationSlice";
 
 const rootReducer = combineReducers({
   timer: timerReducer,
   music: musicReducer,
   theme: themeReducer,
   audio: audioReducer,
+  notification: notificationReducer,
 });
 
 const persistConfig = {
