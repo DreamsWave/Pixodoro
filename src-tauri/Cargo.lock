@@ -2433,13 +2433,14 @@ dependencies = [
 
 [[package]]
 name = "pixodoro"
-version = "1.0.0"
+version = "1.2.0"
 dependencies = [
  "serde",
  "serde_json",
  "tauri",
  "tauri-build",
  "tauri-plugin-positioner",
+ "tauri-plugin-single-instance",
 ]
 
 [[package]]
@@ -3508,6 +3509,20 @@ dependencies = [
  "serde_json",
  "serde_repr",
  "tauri",
+]
+
+[[package]]
+name = "tauri-plugin-single-instance"
+version = "0.0.0"
+source = "git+https://github.com/tauri-apps/plugins-workspace?branch=v1#44df7726ae44547b7e0f72f8ba0e77d54a9c7fbf"
+dependencies = [
+ "log",
+ "serde",
+ "serde_json",
+ "tauri",
+ "thiserror",
+ "windows-sys 0.48.0",
+ "zbus",
 ]
 
 [[package]]
