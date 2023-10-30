@@ -16,6 +16,7 @@ import Time from "../../components/Time";
 import { useAudio } from "../audio/useAudio";
 import { useTimer } from "./useTimer";
 import { invoke } from "@tauri-apps/api";
+import { listen } from "@tauri-apps/api/event";
 import useNotification from "../notification/useNotification";
 
 const Clock = styled.div`
@@ -45,6 +46,7 @@ function Timer({}: TimerProps) {
     progress,
     started,
     autoMode,
+    secondsLeft,
   } = useAppSelector(selectTimer);
   const dispatch = useAppDispatch();
   const { seconds, start, pause, running, stop } = useTimer();
@@ -84,8 +86,33 @@ function Timer({}: TimerProps) {
   }, [seconds]);
 
   useEffect(() => {
-    invoke("update_tray_icon", { status, progress });
-  }, [status, progress]);
+    invoke("update_tray_icon", { status, progress, secondsLeft });
+  }, [status, progress, secondsLeft]);
+
+  useEffect(() => {
+    invoke("update_tray_menu_item_status", { status, progress, secondsLeft });
+  }, [status, secondsLeft]);
+
+  useEffect(() => {
+    const unlistenStart = listen("start", () => {
+      timerStart();
+    });
+    const unlistenPause = listen("pause", () => {
+      timerPause();
+    });
+    const unlistenStop = listen("stop", () => {
+      timerStop();
+    });
+    const unlistenSkip = listen("skip", () => {
+      timerSwitch();
+    });
+    return () => {
+      unlistenStart.then((f) => f());
+      unlistenPause.then((f) => f());
+      unlistenStop.then((f) => f());
+      unlistenSkip.then((f) => f());
+    };
+  }, [status]);
 
   function timerUpdate() {
     if (status === "pomodoro") {
