@@ -130,7 +130,11 @@ function Timer({}: TimerProps) {
       notification,
     }: { playSound?: boolean; notification?: string } = { playSound: true }
   ) {
-    timerPause({ playSound: false });
+    if (autoMode == false) {
+      timerStop({ playSound: false });
+    } else {
+      timerPause({ playSound: false });
+    }
 
     if (notification) {
       sendNotification(notification);
@@ -208,15 +212,15 @@ function Timer({}: TimerProps) {
   }
 
   function timerSwitch() {
-    if (status === "pomodoro") {
+    timerStop({ playSound: false });
+
+    if (status === "pomodoro" && breakTotalSeconds !== 0) {
       dispatch(setStatus("break"));
     } else if (status === "break") {
       dispatch(setStatus("pomodoro"));
     }
 
-    timerStop({ playSound: false });
-
-    if (status === "pomodoro") {
+    if (status === "pomodoro" && breakTotalSeconds !== 0) {
       dispatch(setSecondsLeft(breakTotalSeconds - seconds));
     } else if (status === "break") {
       dispatch(setSecondsLeft(pomodoroTotalSeconds - seconds));

@@ -35,7 +35,7 @@ function TimerInput({ type = "pomodoro" }: TimerInputProps) {
   return (
     <>
       <QuantityInput
-        min={1}
+        min={type === "pomodoro" ? 1 : 0}
         max={120}
         defaultValue={
           type === "pomodoro"
